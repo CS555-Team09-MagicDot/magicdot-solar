@@ -23,6 +23,9 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		email: email,
 		phoneNumber: phoneNumber,
 		password: hashedPassword,
+		salesInquiries: [],
+		ongoingProjects: [],
+		finishedProjects: [],
 	};
 	const insertUserInfo = await userCollection.insertOne(newUser);
 	if (!insertUserInfo.acknowledged || !insertUserInfo.insertedId) throw { status: 500, message: "Could not create new user" };

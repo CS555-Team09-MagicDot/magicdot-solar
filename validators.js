@@ -38,6 +38,16 @@ const validatePhone = (phone) => {
 };
 
 // TODO: write validation conditions
+const validateTitle = (title) => {
+	return title;
+};
+
+// TODO: write validation conditions
+const validateDescription = (description) => {
+	return description;
+};
+
+// TODO: write validation conditions
 const validatePassword = (password) => {
 	return password;
 };
@@ -49,5 +59,7 @@ module.exports = {
 	validateRole,
 	validateEmail,
 	validatePhone,
+	validateTitle,
+	validateDescription,
 	validatePassword,
 };
