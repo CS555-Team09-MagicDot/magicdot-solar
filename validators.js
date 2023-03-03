@@ -16,7 +16,7 @@ const validateId = (id, field) => {
 };
 
 // TODO: write validation conditions
-const valdiateName = (name, type) => {
+const validateName = (name, type) => {
 	return name;
 };
 
@@ -38,13 +38,13 @@ const validatePhone = (phone) => {
 };
 
 // TODO: write validation conditions
-const validateTitle = (title) => {
-	return title;
+const validateSubject = (subject) => {
+	return subject;
 };
 
 // TODO: write validation conditions
-const validateDescription = (description) => {
-	return description;
+const validateMessage = (message) => {
+	return message;
 };
 
 // TODO: write validation conditions
@@ -55,11 +55,11 @@ const validatePassword = (password) => {
 module.exports = {
 	validateString,
 	validateId,
-	valdiateName,
+	validateName,
 	validateRole,
 	validateEmail,
 	validatePhone,
-	validateTitle,
-	validateDescription,
+	validateSubject,
+	validateMessage,
 	validatePassword,
 };

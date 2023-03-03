@@ -6,8 +6,8 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 const createUser = async (firstName, lastName, role, email, phoneNumber, password) => {
-	firstName = validators.valdiateName(firstName, "first name");
-	lastName = validators.valdiateName(lastName, "last name");
+	firstName = validators.validateName(firstName, "first name");
+	lastName = validators.validateName(lastName, "last name");
 	role = validators.validateRole(role);
 	email = validators.validateEmail(email);
 	phoneNumber = validators.validatePhone(phoneNumber);

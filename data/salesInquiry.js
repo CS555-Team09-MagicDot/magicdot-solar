@@ -3,21 +3,21 @@ const salesInquiry = collections.salesInquiry;
 const ObjectId = require("mongodb").ObjectId;
 const validators = require("../validators");
 
-const newInquiry = async (firstName, lastName, email, phoneNumber, title, description) => {
-	firstName = validators.valdiateName(firstName, "first name");
-	lastName = validators.valdiateName(lastName, "last name");
-	email = validators.validateEmail(email);
-	phoneNumber = validators.validatePhone(phoneNumber);
-	title = validators.validateTitle(title);
-	description = validators.validateDescription(description);
+const newInquiry = async (reqBody) => {
+	reqBody.firstName = validators.validateName(reqBody.firstName, "first name");
+	reqBody.lastName = validators.validateName(reqBody.lastName, "last name");
+	reqBody.email = validators.validateEmail(reqBody.email);
+	reqBody.phoneNumber = validators.validatePhone(reqBody.phoneNumber);
+	reqBody.subject = validators.validateSubject(reqBody.subject);
+	reqBody.message = validators.validateMessage(reqBody.message);
 
 	const inquiry = {
-		customerName: `${firstName} ${lastName}`,
-		customerEmail: email,
-		customerPhoneNumber: phoneNumber,
+		customerName: `${reqBody.firstName} ${reqBody.lastName}`,
+		customerEmail: reqBody.email,
+		customerPhoneNumber: reqBody.phoneNumber,
 		status: true,
-		title: title,
-		description: description,
+		subject: reqBody.subject,
+		message: reqBody.message,
 		salesRepresentativeAssigned: {},
 		messages: [],
 	};
@@ -26,8 +26,7 @@ const newInquiry = async (firstName, lastName, email, phoneNumber, title, descri
 	const insertInquiryInfo = await salesInquiryCollection.insertOne(inquiry);
 	if (!insertInquiryInfo.acknowledged || !insertInquiryInfo.insertedId) throw { status: 500, message: "Could not create new inquiry" };
 
-	const newInquiryInfo = await getInquiryById(insertInquiryInfo.insertedId.toString());
-	return newInquiryInfo;
+	return true;
 };
 
 const getInquiryById = async (id) => {

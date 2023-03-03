@@ -1,6 +1,6 @@
 {
 	"mongoConfig": {
 		"serverUrl": "mongodb://localhost:27017/",
-		"database": "Magicdot-Solar"
+		"database": "MagicDot-Solar"
 	}
 }
