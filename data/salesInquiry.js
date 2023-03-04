@@ -38,6 +38,22 @@ const getInquiryById = async (id) => {
 	return getInquiry;
 };
 
+const getInquiry = async (filters) => {
+	const { firstName, secondName, email, phoneNumber, search } = filters;
+	const findQuery = {};
+	findQuery["firstName"] = { $regex: search || firstName, $options: "i" };
+	findQuery["secondName"] = { $regex: search || secondName, $options: "i" };
+	findQuery["email"] = { $regex: search || email, $options: "i" };
+	findQuery["phoneNumber"] = { $regex: search || phoneNumber, $options: "i" };
+	const getInquiries = salesInquiryCollection.find(findQuery);
+	if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
+	getInquiries = getInquiries.map((inq) => {
+	  inq._id = inq._id.toString();
+	  return inq;
+	});
+	return getInquiries;
+};
+
 const closeSalesInquiry = async (id) => {
 	id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
