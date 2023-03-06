@@ -1,3 +1,29 @@
 <main>
-    <h2>Sales Dashboard</h2>
+    <h1>Sales Dashboard</h1>
+
+    <table class ="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each salesInquiryList}}
+
+            <tr>
+                <td>{{customerName}}</td>
+                <td>{{customerEmail}}</td>
+                <td>{{customerPhoneNumber}}</td>
+                <td>{{subject}}</td>
+                <td><a href="/admin/generateaccount/{{_id}}">Generate Credentials</a></td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+    </table>
 </main>

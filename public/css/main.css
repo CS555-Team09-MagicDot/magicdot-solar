@@ -1,0 +1,29 @@
+button {
+    background-color: rgb(34, 188, 0);
+    border: rgb(5, 1, 1);
+    color: black;
+    text-align: center;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+table{
+    align-content: flex-end;
+    padding: 10px;
+}
+
+thead{
+    background-color: #7493bb;
+    color:black;
+    padding: 10px;
+}
+
+tr, td {
+    padding: 5px;
+}
+
+a{
+    color:blue;
+    font-size: medium;
+}

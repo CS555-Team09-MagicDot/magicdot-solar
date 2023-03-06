@@ -29,6 +29,17 @@ const newInquiry = async (reqBody) => {
 	return true;
 };
 
+async function getSalesInquiryList(){
+	const salesInquiryCollection = await salesInquiry();
+    const inquiryList = await salesInquiryCollection.find({}).toArray();
+
+	if (inquiryList === null) return [];
+	for(i in inquiryList){
+    	inquiryList[i]._id = inquiryList[i]._id.toString();
+  	}
+    return inquiryList;
+}
+
 const getInquiryById = async (id) => {
 	id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
@@ -49,6 +60,7 @@ const closeSalesInquiry = async (id) => {
 
 module.exports = {
 	newInquiry,
+	getSalesInquiryList,
 	getInquiryById,
 	closeSalesInquiry,
 };
