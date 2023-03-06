@@ -44,7 +44,7 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 const getUserById = async (userId) => {
 	userId = validators.validateId(userId, "user");
 	const userCollection = await users();
-	const user = await userCollection.findOne({ _id: ObjectId(userId) });
+	const user = await userCollection.findOne({ _id: new ObjectId(userId) });
 	if (!user) throw { status: 404, message: "User not found" };
 	user._id = user._id.toString();
 	return user;

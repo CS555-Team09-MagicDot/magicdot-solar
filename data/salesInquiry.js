@@ -1,6 +1,6 @@
 const collections = require("../config/mongoCollections");
 const salesInquiry = collections.salesInquiry;
-const ObjectId = require("mongodb").ObjectId;
+const {ObjectId} = require('mongodb');
 const validators = require("../validators");
 
 const newInquiry = async (reqBody) => {
@@ -29,6 +29,38 @@ const newInquiry = async (reqBody) => {
 	return true;
 };
 
+
+const newInquiry2 = async (
+	customerName,
+	customerEmail,
+	customerPhoneNumber,
+	subject,
+	message
+  ) => {
+
+	const salesInquiryCollection = await salesInquiry();
+	
+	const inquiry = {
+		customerName: customerName,
+		customerEmail: customerEmail,
+		customerPhoneNumber: customerPhoneNumber,
+		status: true,
+		subject: subject,
+		message: message,
+		salesRepresentativeAssigned: {},
+		messages: [],
+	};
+  
+	const insertInfo = await salesInquiryCollection.insertOne(inquiry);
+
+	if (!insertInfo.acknowledged || !insertInfo.insertedId)
+	  throw 'Could not create inquiry';
+  
+	const newId = insertInfo.insertedId.toString();
+	const inq = await getInquiryById(newId);  
+	return inq;
+  };
+
 async function getSalesInquiryList(){
 	const salesInquiryCollection = await salesInquiry();
     const inquiryList = await salesInquiryCollection.find({}).toArray();
@@ -41,11 +73,11 @@ async function getSalesInquiryList(){
 }
 
 const getInquiryById = async (id) => {
-	id = validators.validateId(id, "inquiry");
+	// id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
-	const getInquiry = salesInquiryCollection.findOne({ _id: ObjectId(id) });
-	if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
-	getInquiry._id = getInquiry._id.toString();
+	const getInquiry = salesInquiryCollection.findOne({ _id: new ObjectId(id) });
+	if (!getInquiry || getInquiry===null) throw { status: 404, message: "Inquiry not found" };
+	//getInquiry._id = getInquiry._id.toString();
 	return getInquiry;
 };
 
@@ -60,6 +92,7 @@ const closeSalesInquiry = async (id) => {
 
 module.exports = {
 	newInquiry,
+	newInquiry2,
 	getSalesInquiryList,
 	getInquiryById,
 	closeSalesInquiry,
