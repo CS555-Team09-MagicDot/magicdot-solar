@@ -11,12 +11,13 @@ router.route("/admin").get(async (req, res) => {
 		//   else isLoggedIn = false;
 
 		return res.status(200).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard" });
-		//   return res.status(200).render('adminhomepage', {title: "Sales Dashboard", isLoggedIn : isLoggedIn, haserror:haserror});
+		//   return res.status(200).render('saleshomepage', {title: "Sales Dashboard", isLoggedIn : isLoggedIn, haserror:haserror});
 	} catch (e) {
 		haserror = true;
-		return res.status(400).render("adminhomepage", { solution1: sol, title: "Flights Available", isLoggedIn: isLoggedIn, haserror: haserror, error: e });
+		return res.status(400).render('error', {error:error});
+		//return res.status(400).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard"});
 	}
-	return res.status(500).render("adminhomepage", { solution1: sol, title: "Flights Available", isLoggedIn: isLoggedIn, haserror: haserror, error: e });
+	return res.status(500).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard"});
 });
 
 router.route("/admin/generateaccount/:id").get(async (req, res) => {
