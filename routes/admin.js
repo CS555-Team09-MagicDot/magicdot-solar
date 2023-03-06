@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const salesInquiryData = require("../data/salesInquiry");
+const sendMail = require("../data/sendMail")
 
 router.route("/admin").get(async (req, res) => {
 	let haserror = false;
@@ -25,6 +26,7 @@ router.route("/admin/generateaccount/:id").get(async (req, res) => {
 	try {
 		// code here
 		console.log("Hello Hello... Mike Testing");
+		var status = await sendMail.generateCredentialsandsendmail(req.params.id);
 
 		res.redirect('/admin');
 	} catch (error) {
