@@ -9,4 +9,20 @@ router.route("/").get(async (req, res) => {
 	}
 });
 
+router.route("/home").get(async(req, res)=>{
+
+});
+
+router.route("/about").get(async(req, res)=>{
+
+});
+
+router.route("/services").get(async(req, res)=>{
+
+});
+
+router.route("/projects").get(async(req, res)=>{
+
+});
+
 module.exports = router;
