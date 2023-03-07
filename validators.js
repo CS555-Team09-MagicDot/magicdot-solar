@@ -29,6 +29,8 @@ const validateRole = (role) => {
 
 // TODO: write validation conditions
 const validateEmail = (email) => {
+	email = validateString(email, "email");
+	email = email.toLowerCase();
 	return email;
 };
 
