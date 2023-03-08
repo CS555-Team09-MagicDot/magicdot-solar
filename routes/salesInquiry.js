@@ -16,16 +16,17 @@ router.route("/").post(async (req, res) => {
 	}
 
 	try {
-		let createInquiry = await salesInquiryData.newInquiry(req.body);
+		let createInquiry = await salesInquiryData.newInquiry(req.body.firstName, req.body.lastName, req.body.email, req.body.phoneNumber, req.body.subject, req.body.message);
 		if (createInquiry) {
 			return res.status(200).render("homepage", { inquirySuccess: true });
 		}
 	} catch (e) {
+		console.log(e);
 		return res.status(500).json({ error: e.message });
 	}
 });
 
-router.route('/getInq', async (req, res) => {
+router.route("/getInq", async (req, res) => {
 	try {
 		req.body.firstName = validators.validateName(req.body.firstName, "first name");
 		req.body.lastName = validators.validateName(req.body.lastName, "last name");

@@ -1,23 +1,23 @@
 const collections = require("../config/mongoCollections");
 const salesInquiry = collections.salesInquiry;
-const {ObjectId} = require('mongodb');
+const ObjectId = require("mongodb").ObjectId;
 const validators = require("../validators");
 
-const newInquiry = async (reqBody) => {
-	reqBody.firstName = validators.validateName(reqBody.firstName, "first name");
-	reqBody.lastName = validators.validateName(reqBody.lastName, "last name");
-	reqBody.email = validators.validateEmail(reqBody.email);
-	reqBody.phoneNumber = validators.validatePhone(reqBody.phoneNumber);
-	reqBody.subject = validators.validateSubject(reqBody.subject);
-	reqBody.message = validators.validateMessage(reqBody.message);
+const newInquiry = async (firstName, lastName, email, phoneNumber, subject, message) => {
+	firstName = validators.validateName(firstName, "first name");
+	lastName = validators.validateName(lastName, "last name");
+	email = validators.validateEmail(email);
+	phoneNumber = validators.validatePhone(phoneNumber);
+	subject = validators.validateSubject(subject);
+	message = validators.validateMessage(message);
 
 	const inquiry = {
-		customerName: `${reqBody.firstName} ${reqBody.lastName}`,
-		customerEmail: reqBody.email,
-		customerPhoneNumber: reqBody.phoneNumber,
+		customerName: `${firstName} ${lastName}`,
+		customerEmail: email,
+		customerPhoneNumber: phoneNumber,
 		status: true,
-		subject: reqBody.subject,
-		message: reqBody.message,
+		subject: subject,
+		message: message,
 		salesRepresentativeAssigned: {},
 		messages: [],
 	};
@@ -29,17 +29,9 @@ const newInquiry = async (reqBody) => {
 	return true;
 };
 
-
-const newInquiry2 = async (
-	customerName,
-	customerEmail,
-	customerPhoneNumber,
-	subject,
-	message
-  ) => {
-
+const newInquiry2 = async (customerName, customerEmail, customerPhoneNumber, subject, message) => {
 	const salesInquiryCollection = await salesInquiry();
-	
+
 	const inquiry = {
 		customerName: customerName,
 		customerEmail: customerEmail,
@@ -50,33 +42,32 @@ const newInquiry2 = async (
 		salesRepresentativeAssigned: {},
 		messages: [],
 	};
-  
+
 	const insertInfo = await salesInquiryCollection.insertOne(inquiry);
 
-	if (!insertInfo.acknowledged || !insertInfo.insertedId)
-	  throw 'Could not create inquiry';
-  
-	const newId = insertInfo.insertedId.toString();
-	const inq = await getInquiryById(newId);  
-	return inq;
-  };
+	if (!insertInfo.acknowledged || !insertInfo.insertedId) throw "Could not create inquiry";
 
-async function getSalesInquiryList(){
+	const newId = insertInfo.insertedId.toString();
+	const inq = await getInquiryById(newId);
+	return inq;
+};
+
+async function getSalesInquiryList() {
 	const salesInquiryCollection = await salesInquiry();
-    const inquiryList = await salesInquiryCollection.find({}).toArray();
+	const inquiryList = await salesInquiryCollection.find({}).toArray();
 
 	if (inquiryList === null) return [];
-	for(i in inquiryList){
-    	inquiryList[i]._id = inquiryList[i]._id.toString();
-  	}
-    return inquiryList;
+	for (i in inquiryList) {
+		inquiryList[i]._id = inquiryList[i]._id.toString();
+	}
+	return inquiryList;
 }
 
 const getInquiryById = async (id) => {
 	// id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
 	const getInquiry = salesInquiryCollection.findOne({ _id: new ObjectId(id) });
-	if (!getInquiry || getInquiry===null) throw { status: 404, message: "Inquiry not found" };
+	if (!getInquiry || getInquiry === null) throw { status: 404, message: "Inquiry not found" };
 	//getInquiry._id = getInquiry._id.toString();
 	return getInquiry;
 };
@@ -91,8 +82,8 @@ const getInquiry = async (filters) => {
 	const getInquiries = salesInquiryCollection.find(findQuery);
 	if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
 	getInquiries = getInquiries.map((inq) => {
-	  inq._id = inq._id.toString();
-	  return inq;
+		inq._id = inq._id.toString();
+		return inq;
 	});
 	return getInquiries;
 };
