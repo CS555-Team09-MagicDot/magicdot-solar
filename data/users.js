@@ -61,9 +61,9 @@ const checkUser = async (email, password) => {
 	const sendUserInfo = {
 		_id: user._id.toString(),
 		name: user.name,
-		role: role,
+		role: user.role,
 		email: user.email,
-		phoneNumber: phoneNumber,
+		phoneNumber: user.phoneNumber,
 	};
 	return sendUserInfo;
 };

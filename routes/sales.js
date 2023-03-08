@@ -3,7 +3,7 @@ const router = express.Router();
 const salesInquiryData = require("../data/salesInquiry");
 const sendMail = require("../data/sendMail");
 
-router.route("/admin").get(async (req, res) => {
+router.route("/sales").get(async (req, res) => {
 	let haserror = false;
 	let isLoggedIn;
 	try {
@@ -21,7 +21,7 @@ router.route("/admin").get(async (req, res) => {
 	return res.status(500).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard"});
 });
 
-router.route("/admin/generateaccount/:id").get(async (req, res) => {
+router.route("/sales/generateaccount/:id").get(async (req, res) => {
 	let haserror = false;
 	try {
 		// code here
@@ -29,7 +29,7 @@ router.route("/admin/generateaccount/:id").get(async (req, res) => {
 		var status = await sendMail.generateCredentialsandsendmail(req.params.id);
 		console.log(status);
 
-		res.redirect('/admin');
+		res.redirect('/sales');
 	} catch (error) {
 		haserror=true;
     	return res.status(400).render('error', {error:error});
