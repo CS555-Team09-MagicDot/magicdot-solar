@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 
 const configRoutes = require("./routes");
@@ -12,6 +13,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.engine("handlebars", exphbars.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+app.use(
+	session({
+		name: "Magicdot - Solar",
+		secret: "Team09",
+		resave: false,
+		saveUninitialized: true,
+	})
+);
 
 configRoutes(app);
 

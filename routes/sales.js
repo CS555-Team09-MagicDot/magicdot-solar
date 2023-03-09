@@ -15,10 +15,10 @@ router.route("/sales").get(async (req, res) => {
 		//   return res.status(200).render('saleshomepage', {title: "Sales Dashboard", isLoggedIn : isLoggedIn, haserror:haserror});
 	} catch (error) {
 		haserror = true;
-		return res.status(400).render('error', {error:error});
+		return res.status(400).render("error", { error: error });
 		//return res.status(400).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard"});
 	}
-	return res.status(500).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard"});
+	return res.status(500).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard" });
 });
 
 router.route("/sales/generateaccount/:id").get(async (req, res) => {
@@ -29,10 +29,10 @@ router.route("/sales/generateaccount/:id").get(async (req, res) => {
 		var status = await sendMail.generateCredentialsandsendmail(req.params.id);
 		console.log(status);
 
-		res.redirect('/sales');
+		return res.redirect("/sales");
 	} catch (error) {
-		haserror=true;
-    	return res.status(400).render('error', {error:error});
+		haserror = true;
+		return res.status(400).render("error", { error: error });
 	}
 });
 
