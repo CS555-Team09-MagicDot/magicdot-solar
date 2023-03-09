@@ -51,6 +51,7 @@ const getUserById = async (userId) => {
 };
 
 const checkUser = async (email, password) => {
+	if (!email || !password) throw { status: 400, message: "Must provide both email and password" };
 	const userCollection = await users();
 	const user = await userCollection.findOne({ email: email });
 	if (!user) throw { status: 400, message: "Incorrect email or password" };
