@@ -33,8 +33,7 @@ router
 			let data = req.body;
 			data.email = validators.validateEmail(data.email);
 			let userData = await users.checkUser(data.email, data.password);
-
-			if(userData.role === 'sales') return res.status(200).redirect("/sales");
+			if (userData.role === "sales representative") return res.status(200).redirect("/sales");
 			else return res.status(200).render("homepage");
 		} catch (e) {
 			return res.status(e.status).render("homepage", { error: e.message });
