@@ -6,7 +6,7 @@
 		</a>
 		<div class="flex md:order-2">
 
-			<button type="button" class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-3 md:mr-5">Sign Up</button>
+			{{! <button type="button" class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-3 md:mr-5">Sign Up</button> }}
 
 			<a href="/login"><button type="button" class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-3 md:mr-0">Sign In</button></a>
 
@@ -21,7 +21,7 @@
 					<a href="#" class="block py-2 pl-3 pr-4 text-emerald-700 bg-emerald-700 rounded md:bg-transparent md:text-emerald-700 md:p-0" aria-current="page">Home</a>
 				</li>
 				<li>
-					<a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">About</a>
+					<a href="/about" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">About</a>
 				</li>
 				<li>
 					<a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">Services</a>
@@ -54,9 +54,9 @@
 					Inquire now
 				</a>
 
-				<a href="#" class="block w-full rounded-lg bg-white px-12 py-3 text-sm font-medium text-emerald-600 shadow hover:text-emerald-800 focus:outline-none focus:ring active:text-emerald-500 sm:w-auto">
+				{{! <a href="#" class="block w-full rounded-lg bg-white px-12 py-3 text-sm font-medium text-emerald-600 shadow hover:text-emerald-800 focus:outline-none focus:ring active:text-emerald-500 sm:w-auto">
 					Get Started
-				</a>
+				</a> }}
 			</div>
 		</div>
 	</div>
@@ -169,8 +169,8 @@
 				</div>
 
 				<div class="mt-4">
-					<label class="block text-sm font-medium text-emerald-900">
-						Image
+					<label class="block text-emerald-900">
+						Optionally upload image(s)
 					</label>
 					<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
 						<div class="space-y-1 text-center">
@@ -179,13 +179,13 @@
 							</svg>
 							<div class="flex text-sm text-gray-600">
 								<label for="file-upload" class="relative cursor-pointer bg-emerald-600 rounded-md font-medium text-emerald-600 hover:text-emerald-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-									<span class="px-4 text-white">Upload a file</span>
-									<input id="file-upload" name="file-upload" type="file" class="sr-only" />
+									<span class="px-4 text-white">Upload images</span>
+									<input id="file-upload" name="file-upload" type="file" class="sr-only" accept=".png,.jpg,.jpeg" />
 								</label>
 								<p class="pl-1 text-emerald-800">or drag and drop</p>
 							</div>
 							<p class="text-xs text-emerald-800">
-								PNG, JPG, GIF up to 10MB
+								PNG, JPG, JPEG up to 10MB
 							</p>
 						</div>
 					</div>
@@ -213,19 +213,19 @@
 		<nav aria-label="Footer Nav " class="mt-12">
 			<ul class="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75" href="/about">
 						About
 					</a>
 				</li>
 
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75" href="/ ">
 						Services
 					</a>
 				</li>
 
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75" href="/ ">
 						Projects
 					</a>
 				</li>

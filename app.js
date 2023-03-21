@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const fileUpload = require("express-fileupload");
 const app = express();
 
 const configRoutes = require("./routes");
@@ -13,6 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.engine("handlebars", exphbars.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+app.use(fileUpload());
 
 app.use(
 	session({
