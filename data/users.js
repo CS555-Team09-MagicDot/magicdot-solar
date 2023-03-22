@@ -44,13 +44,14 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 const getUserById = async (userId) => {
 	userId = validators.validateId(userId, "user");
 	const userCollection = await users();
-	const user = await userCollection.findOne({ _id: ObjectId(userId) });
+	const user = await userCollection.findOne({ _id: new ObjectId(userId) });
 	if (!user) throw { status: 404, message: "User not found" };
 	user._id = user._id.toString();
 	return user;
 };
 
 const checkUser = async (email, password) => {
+	if (!email || !password) throw { status: 400, message: "Must provide both email and password" };
 	const userCollection = await users();
 	const user = await userCollection.findOne({ email: email });
 	if (!user) throw { status: 400, message: "Incorrect email or password" };
@@ -61,9 +62,9 @@ const checkUser = async (email, password) => {
 	const sendUserInfo = {
 		_id: user._id.toString(),
 		name: user.name,
-		role: role,
+		role: user.role,
 		email: user.email,
-		phoneNumber: phoneNumber,
+		phoneNumber: user.phoneNumber,
 	};
 	return sendUserInfo;
 };

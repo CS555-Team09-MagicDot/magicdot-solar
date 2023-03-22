@@ -1,19 +1,40 @@
-<main>
-  <h2>Sales Dashboard
-    {{#each inquiries}}
-      <a
-        href="#"
-        class="block max-w-sm p-6 bg-white border border-gray-200 m-4 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-      >
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-        >{{this.customerName}}</h5>
-        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-          {{this.customerEmail}}</p>
-        <p
-          class="font-normal text-gray-700 dark:text-gray-400"
-        >{{this.message}}</p>
-      </a>
-    {{/each}}
-  </h2>
-</main>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+        .font-family-karla {
+            font-family: karla;
+        }
+    </style>
+</head>
+
+<body class="bg-white font-family-karla h-screen">
+    <br><p class="text-center text-3xl">Sales Dashboard</p> <br>
+
+    <table class ="table table-striped border dark:border-neutral-500" style="margin-left: auto; margin-right: auto;">
+        <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
+            <tr>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each salesInquiryList}}
+
+            <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{customerName}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{customerEmail}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{customerPhoneNumber}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{subject}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500"><a href="/admin/generateaccount/{{_id}}" class="px-6 py-3 text-blue-100 no-underline bg-green-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">Generate Credentials</a></td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+    </table>
+</body>
