@@ -45,4 +45,27 @@ router.route("/getInq", async (req, res) => {
 		return res.status(500).json({ error: e.message });
 	}
 });
+
+router.route("/getData").get(async (req, res) => {
+	try {
+	  req.body.firstName = validators.validateName(
+		req.body.firstName,
+		"first name"
+	  );
+	  req.body.lastName = validators.validateName(req.body.lastName, "last name");
+	  req.body.email = validators.validateEmail(req.body.email);
+	  req.body.phoneNumber = validators.validatePhone(req.body.phoneNumber);
+	} catch (e) {
+	  return res.status(e.status).json({ error: e });
+	}
+  
+	try {
+	  const inquiries = await salesInquiryData.getInquiry(req.body);
+	  return res.status(200).render("saleshomepage", {
+		inquiries: inquiries,
+	  });
+	} catch (e) {
+	  return res.status(500).json({ error: e.message });
+	}
+  });
 module.exports = router;
