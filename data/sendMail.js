@@ -13,7 +13,7 @@ const generateCredentialsandsendmail = async (id) => {
 
     // Decrypt pw here
 
-    const password = "abc@123";
+    const password = "Abcdefg@123";
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",

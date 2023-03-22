@@ -11,7 +11,7 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 	role = validators.validateRole(role);
 	email = validators.validateEmail(email);
 	phoneNumber = validators.validatePhone(phoneNumber);
-	password = validators.validatePassword(password);
+	//password = validators.validatePassword(password);
 
 	const userCollection = await users();
 	if (await userCollection.findOne({ email: email })) throw { status: 400, message: `An account with that email already exists` };
