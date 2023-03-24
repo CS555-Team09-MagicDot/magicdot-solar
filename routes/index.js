@@ -1,12 +1,14 @@
 const homepageRoutes = require("./homepage");
 const salesRoutes = require("./sales");
 const inquiryRoutes = require("./salesInquiry");
+const customerRoutes = require("./customer");
 const path = require("path");
 
 const constructorMethod = (app) => {
 	app.use("/", homepageRoutes);
 	app.use("/", salesRoutes);
 	app.use("/inquiry", inquiryRoutes);
+	app.use("/customer", customerRoutes);
 	app.use("/about", (req, res) => {
 		res.sendFile(path.resolve("static/about.html"));
 	});
