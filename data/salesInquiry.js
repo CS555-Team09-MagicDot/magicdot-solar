@@ -63,6 +63,28 @@ async function getSalesInquiryList() {
 	return inquiryList;
 }
 
+async function getActiveSalesInquiryList() {
+	const salesInquiryCollection = await salesInquiry();
+	const inquiryList = await salesInquiryCollection.find({status: true}).toArray();
+
+	if (inquiryList === null) return [];
+	for (i in inquiryList) {
+		inquiryList[i]._id = inquiryList[i]._id.toString();
+	}
+	return inquiryList;
+}
+
+async function getClosedSalesInquiryList() {
+	const salesInquiryCollection = await salesInquiry();
+	const inquiryList = await salesInquiryCollection.find({status: false}).toArray();
+
+	if (inquiryList === null) return [];
+	for (i in inquiryList) {
+		inquiryList[i]._id = inquiryList[i]._id.toString();
+	}
+	return inquiryList;
+}
+
 const getInquiryById = async (id) => {
 	// id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
@@ -98,7 +120,7 @@ const getInquiry = async (filters) => {
 const closeSalesInquiry = async (id) => {
 	id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
-	const closeInquiry = await salesInquiryCollection.updateOne({ _id: ObjectId(id) }, { $set: { status: false } });
+	const closeInquiry = await salesInquiryCollection.updateOne({ _id: new ObjectId(id) }, { $set: { status: false } });
 	if (closeInquiry.modifiedCount === 0) throw { status: 500, message: "Could not close inquiry" };
 	const updatedInquiry = await getInquiryById(id);
 	return updatedInquiry;
@@ -111,4 +133,6 @@ module.exports = {
 	getInquiryById,
 	getInquiry,
 	closeSalesInquiry,
+	getActiveSalesInquiryList,
+	getClosedSalesInquiryList
 };

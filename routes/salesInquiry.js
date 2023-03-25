@@ -68,4 +68,5 @@ router.route("/getData").get(async (req, res) => {
 	  return res.status(500).json({ error: e.message });
 	}
   });
+
 module.exports = router;

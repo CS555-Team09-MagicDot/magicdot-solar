@@ -45,8 +45,16 @@ const validatePhone = (phone) => {
 	if (!phone || phone === "N/A" || phone.length === 0) return "N/A";
 	const regex = /[^0-9]/;
 	phone = phone.trim();
-	if (regex.test(phone)) throw { status: 400, message: "Phone number must contain only integer number" };
+	
 	if (phone.length !== 10) throw { status: 400, message: "Phone number must have 10 digits" };
+
+	//if (regex.test(phone)) throw { status: 400, message: "Phone number must contain only integer number" };
+
+	for(i=0;i<phone.length;i++){
+        if(!(Number.isInteger(Number(phone[i])) && Number(phone[i])>=0 && Number(phone[i])<=9))
+        throw { status: 400, message: "Phone number must contain only integer number" };
+	}
+
 	if (!parseInt(phone)) throw { status: 400, message: "Phone must be a 10 digits number" };
 	return phone;
 };

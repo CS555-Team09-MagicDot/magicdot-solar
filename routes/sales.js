@@ -7,11 +7,12 @@ router.route("/sales").get(async (req, res) => {
 	let haserror = false;
 	let isLoggedIn;
 	try {
-		var inquiryList = await salesInquiryData.getSalesInquiryList();
+		var activeInquiryList = await salesInquiryData.getActiveSalesInquiryList();
+		var closedInquiryList = await salesInquiryData.getClosedSalesInquiryList();
 		//   if (req.session.admin) isLoggedIn = true;
 		//   else isLoggedIn = false;
 
-		return res.status(200).render("saleshomepage", { salesInquiryList: inquiryList, title: "Sales Dashboard" });
+		return res.status(200).render("saleshomepage", { activeSalesInquiryList: activeInquiryList, closedSalesInquiryList: closedInquiryList, title: "Sales Dashboard" });
 		//   return res.status(200).render('saleshomepage', {title: "Sales Dashboard", isLoggedIn : isLoggedIn, haserror:haserror});
 	} catch (error) {
 		haserror = true;
@@ -28,6 +29,8 @@ router.route("/sales/generateaccount/:id").get(async (req, res) => {
 		console.log("Hello Hello... Mike Testing");
 		var status = await sendMail.generateCredentialsandsendmail(req.params.id);
 		console.log(status);
+		var update = await salesInquiryData.closeSalesInquiry(req.params.id);
+		console.log(update);
 
 		return res.redirect("/sales");
 	} catch (error) {
