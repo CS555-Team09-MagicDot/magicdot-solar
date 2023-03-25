@@ -38,7 +38,10 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		role: newUserInfo.role,
 		email: newUserInfo.email,
 		phoneNumber: newUserInfo.phoneNumber,
-		password: newUserInfo.password
+		password: newUserInfo.password,
+		isSigned: newUserInfo.isSigned
+		
+
 	};
 	return sendUserInfo;
 };
@@ -71,8 +74,21 @@ const checkUser = async (email, password) => {
 	return sendUserInfo;
 };
 
+const checkUserAgreement = async(email)=>{
+
+	const userCollection = await users();
+	
+	var myquery = { email: email };
+	
+	var newvalues = { $set: {isSigned: true}};
+	const customer = await userCollection.updateOne(myquery, newvalues);
+	return customer;
+
+};
+
 module.exports = {
 	createUser,
 	getUserById,
 	checkUser,
+	checkUserAgreement,
 };
