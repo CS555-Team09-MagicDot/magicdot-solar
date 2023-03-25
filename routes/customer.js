@@ -2,8 +2,8 @@ const express = require("express");
 const validators = require("../validators");
 const users = require("../data/users");
 const router = express.Router();
-const collections = require("../config/mongoCollections");
-const usersSchema = collections.users;
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 router.route("/").get(async (req, res) => {
 	try {
@@ -32,15 +32,9 @@ router.route("/customerAgreement").post(async (req, res) => {
         //email = user.email
 
         
-        
+        const customer = await users.checkUserAgreement(req.body.email)
         // Find the customer by email and update their record
-        const userCollection = await usersSchema();
-        const email = req.body.email
-        var myquery = { email: email };
-        
-        var newvalues = { $set: {isSigned: true}};
-        const customer = await userCollection.updateOne(myquery, newvalues);
-        
+       
         // If the customer is not found, return a 404 error
         if (!customer) {
             return res.status(404).send('Customer not found');
@@ -54,4 +48,24 @@ router.route("/customerAgreement").post(async (req, res) => {
     }
 });
 
+
+router.get('/customerAgreement/download', async (req, res) => {
+    try {
+      
+      const pdfDoc = new PDFDocument();
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=agreement.pdf');
+      
+      pdfDoc.pipe(res);
+      pdfDoc.fontSize(20).text(`Agreement for ${req.session.user.name}`, { underline: true });
+      pdfDoc.fontSize(12).text('This agreement confirms that the customer has agreed to the terms and conditions set forth by the company.');
+      pdfDoc.end();
+      
+  
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send('Internal Server Error');
+    }
+  });
 module.exports = router;

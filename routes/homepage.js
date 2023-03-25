@@ -35,6 +35,7 @@ router
 			let data = req.body;
 			//data.email = validators.validateEmail(data.email);
 			//let userData = await users.checkUser(data.email, data.password);
+			//Temporary Login Setup
 			const userCollection = await usersdata();
 			const user = await userCollection.findOne({ email: data.email });
 			if (!user) throw { status: 400, message: "Incorrect email or password" };
@@ -44,6 +45,7 @@ router
 				role: user.role,
 				email: user.email,
 				phoneNumber: user.phoneNumber,
+				isSigned: user.isSigned,
 			};
 			req.session.user = userData;
 			if (userData.role === "sales representative") return res.status(200).redirect("/sales");
