@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Customer Dashboard</title>
+    <!-- include Tailwind CSS -->
+    <link rel="stylesheet" href="../public/css/tailwind.css">
+  </head>
+  <body>
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold mb-4">Welcome, {{user.name}}!</h1>
+      <p class="text-lg mb-4">You can manage your account and documents from here.</p>
+      <!-- add the "Documents" button using Tailwind CSS -->
+      <a href="/customer/documents" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Documents
+      </a>
+    </div>
+  </body>
+</html>
