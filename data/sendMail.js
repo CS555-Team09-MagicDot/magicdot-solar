@@ -2,18 +2,29 @@ const nodemailer = require("nodemailer");
 const usersData = require("./users");
 const salesInquiryData = require("./salesInquiry");
 
+
+const generateRandomPassword = async() => {
+  const length = 8;
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let password = "@";
+  for (let i = 0; i < length; i++) {
+    password += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return password;
+};
+
 const generateCredentialsandsendmail = async (id) => {
   try {
     console.log(id)
     const inquiryData = await salesInquiryData.getInquiryById(id);
     console.log(inquiryData);
-    
+
+    const password = await generateRandomPassword()
+    //const password1=password
     const newUser = await usersData.createUser(inquiryData.customerName, inquiryData.customerName, "customer", inquiryData.customerEmail, 
-    inquiryData.customerPhoneNumber, "abc@123");
+    inquiryData.customerPhoneNumber, password);
 
-    // Decrypt pw here
 
-    const password = "Abcdefg@123";
 
     const transporter = nodemailer.createTransport({
         service: "hotmail",

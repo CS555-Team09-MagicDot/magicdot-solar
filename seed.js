@@ -1,6 +1,7 @@
 const connection = require("./config/mongoConnection");
 const salesInquiry = require("./data/salesInquiry");
 const userData = require("./data/users");
+const projectsData = require("./data/project");
 
 async function main() {
 	const db = await connection.dbConnection();
@@ -14,11 +15,18 @@ async function main() {
 	// 	console.log(e);
 	// }
 
+	// try {
+	// 	const newUser = await userData.createUser("Dave", "Harvey", "sales representative", "daveh@gmail.com", "7865382167", "Test@123");
+	// 	console.log(newUser);
+	// } catch (error) {
+	// 	console.error(error);
+	// }
+
 	try {
-		const newUser = await userData.createUser("Dave", "Harvey", "sales representative", "daveh@gmail.com", "7865382167", "Test@123");
-		console.log(newUser);
-	} catch (error) {
-		console.error(error);
+		const newProject = await projectsData.createProject("Project-23456", "description", "03/12/2020", "04/10/2021", "ongoing","approved", "xyz person","Aplha","abc","qwe");
+		console.log(newProject);
+	} catch (e) {
+		console.log(e);
 	}
 
 	await connection.closeConnection();

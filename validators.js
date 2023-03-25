@@ -86,6 +86,12 @@ const validatePassword = (password) => {
 	return password;
 };
 
+const validateDate = (date, field) => {
+	if (!date) throw { status: 400, message: `Must provide a date for ${field}` };
+	if (isNaN(Date.parse(date))) throw { status: 400, message: `Input is not a valid date for ${field}` };
+	return new Date(date);
+  };
+
 module.exports = {
 	validateString,
 	validateId,
@@ -96,4 +102,5 @@ module.exports = {
 	validateSubject,
 	validateMessage,
 	validatePassword,
+	validateDate,
 };
