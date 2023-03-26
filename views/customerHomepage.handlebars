@@ -6,18 +6,73 @@
   <link rel="stylesheet" href="../public/css/tailwind.css">
 </head>
 
-<body>
-  <div class="container mx-auto px-4 py-8 space-x-4" >
+<body class="bg-white h-screen">
+  <div class="container mx-auto px-4 py-8 space-x-4 text-center">
     <h1 class="text-3xl font-bold mb-4">Welcome, {{user.name}}!</h1>
     <p class="text-lg mb-4">You can manage your account and documents from here.</p>
+
     <!-- add the "Documents" button using Tailwind CSS -->
-    <a href="/customer/documents" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-      Documents
-    </a>
-    <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-      Logout
-    </a>
+    <a href="/customer/documents" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Documents</a>
+    <a href="/customer/chat" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Chat</a>
+    <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</a>
   </div>
+
+  <h2 class="text-3xl text-center font-normal leading-normal mt-0 mb-2 text-green-500">Ongoing Projects</h2>
+    <table class ="table table-striped border dark:border-neutral-500" style="margin-left: auto; margin-right: auto;">
+        <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
+            <tr>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Name</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Start Date</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Sales Team</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Operational Manager</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Construction Crew</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each ongoingProjects}}
+
+            <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{projectName}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{startDate}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{salesRep}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{operationsManager}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{constructionCrew}}</td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+    </table>
+
+    <br>
+
+    <h2 class="text-3xl text-center font-normal leading-normal mt-0 mb-2 text-red-500">Finished Projects</h2>
+    <table class ="table table-striped border dark:border-neutral-500" style="margin-left: auto; margin-right: auto;">
+        <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
+            <tr>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Name</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Start Date</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Sales Team</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Operational Manager</th>
+                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Construction Crew</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each finishedProjects}}
+
+            <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{projectName}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{startDate}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{salesRep}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{operationsManager}}</td>
+                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{constructionCrew}}</td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+    </table>
+
 </body>
 
 </html>

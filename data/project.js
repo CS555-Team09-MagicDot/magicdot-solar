@@ -75,10 +75,20 @@ const getProjectById = async (projectId) => {
 	return project;
 };
 
+const getAllProjects = async () => {
+	const projectCollection = await projects();
+	const arr = await projectCollection.find({}).toArray();
+	if (arr === null) return [];
+	for(i in arr) {
+		arr[i]._id=arr[i]._id.toString();
+  	}
+  	return arr;
+};
+
 module.exports = {
 	getApprovedProjects,
 	getPendingProjects,
-    createProject
+    createProject,
+	getAllProjects,
+	getProjectById
 };
-//getPendingProjects();
-getApprovedProjects();

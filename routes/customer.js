@@ -1,6 +1,7 @@
 const express = require("express");
 const validators = require("../validators");
 const users = require("../data/users");
+const customerData = require('../data/customer');
 const router = express.Router();
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
@@ -10,9 +11,18 @@ router.route("/").get(async (req, res) => {
     if (!req.session.user || req.session.user.role !== "customer") {
       return res.status(200).redirect("/");
     }
+
+    //Uncomment following line when agreement/document functionality is ready
+    //if(req.session.user.isSigned === false) return res.status(200).render("customerAgreement", {title: "Customer Agreement", user: req.session.user});
+
+    const ongoingProjects = customerData.getCustomerOnGoingProjects(req.session.user._id);
+    const finishedProjects = customerData.getCustomerFinishedProjects(req.session.user._id);
+
     return res.status(200).render("customerHomepage", {
       title: "Customer Dashboard",
       user: req.session.user,
+      ongoingProjects: ongoingProjects,
+      finishedProjects: finishedProjects
     });
   } catch (e) {
     //return res.status(e.status).render("homepage", { error: e.message });
@@ -74,4 +84,18 @@ router.get("/customerAgreement/download", async (req, res) => {
     return res.status(500).send("Internal Server Error");
   }
 });
+
+router.route("/chat").get(async (req, res) => {
+  try {
+    if (!req.session.user || req.session.user.role !== "customer") {
+      return res.status(200).redirect("/");
+    }
+    //console.log(req.session.user);
+    return res.status(200).render("chat", { title: "Chat", user: req.session.user});
+
+  } catch (error) {
+    return res.status(400).render("error", { error: error });
+  }
+});
+
 module.exports = router;
