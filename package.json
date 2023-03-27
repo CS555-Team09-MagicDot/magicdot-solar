@@ -24,7 +24,6 @@
         "express-fileupload": "^1.4.0",
         "express-handlebars": "^6.0.7",
         "express-session": "^1.17.3",
-        "image-to-base64": "^2.2.0",
         "images": "^3.2.4",
         "mongodb": "^5.1.0",
         "nodemailer": "^6.9.1"

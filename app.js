@@ -15,8 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbars.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.use(fileUpload());
-
 app.use(
 	session({
 		name: "Magicdot - Solar",
@@ -25,6 +23,8 @@ app.use(
 		saveUninitialized: true,
 	})
 );
+
+app.use(fileUpload());
 
 configRoutes(app);
 
