@@ -5,9 +5,6 @@
 			<span class="self-center text-xl font-semibold whitespace-nowrap">MagicDot</span>
 		</a>
 		<div class="flex md:order-2">
-
-			<button type="button" class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-3 md:mr-5">Sign Up</button>
-
 			<a href="/login"><button type="button" class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-3 md:mr-0">Sign In</button></a>
 
 			<button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
@@ -21,7 +18,7 @@
 					<a href="#" class="block py-2 pl-3 pr-4 text-emerald-700 bg-emerald-700 rounded md:bg-transparent md:text-emerald-700 md:p-0" aria-current="page">Home</a>
 				</li>
 				<li>
-					<a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">About</a>
+					<a href="/about" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">About</a>
 				</li>
 				<li>
 					<a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-700 md:p-0">Services</a>
@@ -35,6 +32,14 @@
 </nav>
 
 <section class="relative bg-[url(https://images.pexels.com/photos/159397/solar-panel-array-power-sun-electricity-159397.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)] bg-cover bg-center bg-no-repeat">
+	{{#if inquirySuccess}}
+		<dialog class="z-20 text-center border-emerald-600 bg-white/[0.7] backdrop-blur-sm border-2 rounded-lg mt-24 font-medium" open>
+			<span class="text-lg">Your inquiry has been submitted!</span>
+			<form method="dialog">
+				<button class="text-white bg-emerald-600 hover:bg-emerald-800 rounded-lg px-5 py-2.5 mt-6 text-center text-sm">Okay</button>
+			</form>
+		</dialog>
+	{{/if}}
 	<div class="absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25"></div>
 
 	<div class="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
@@ -46,7 +51,6 @@
 
 			<p class="mt-4 max-w-lg sm:text-xl sm:leading-relaxed">
 				Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus numquam ea!
-				{{#if inquirySuccess}} <h4>Inquiry submitted</h4>{{/if}}
 			</p>
 
 			<div class="mt-8 flex flex-wrap gap-4 text-center">
@@ -54,9 +58,9 @@
 					Inquire now
 				</a>
 
-				<a href="#" class="block w-full rounded-lg bg-white px-12 py-3 text-sm font-medium text-emerald-600 shadow hover:text-emerald-800 focus:outline-none focus:ring active:text-emerald-500 sm:w-auto">
+				{{! <a href="#" class="block w-full rounded-lg bg-white px-12 py-3 text-sm font-medium text-emerald-600 shadow hover:text-emerald-800 focus:outline-none focus:ring active:text-emerald-500 sm:w-auto">
 					Get Started
-				</a>
+				</a> }}
 			</div>
 		</div>
 	</div>
@@ -141,7 +145,7 @@
 
 			<hr class="mt-3 mb-6 border-gray-300 w-64" />
 
-			<form class="mt-6 pb-6" action="/inquiry" method="POST">
+			<form class="mt-6 pb-6" action="/inquiry" method="POST" encType="multipart/form-data">
 				<div class="mt-4">
 					<label class="text-emerald-900" for="username">First Name</label>
 					<input id="firstName" name="firstName" type="text" placeholder="John" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" autocomplete required />
@@ -169,8 +173,8 @@
 				</div>
 
 				<div class="mt-4">
-					<label class="block text-sm font-medium text-emerald-900">
-						Image
+					<label class="block text-emerald-900">
+						Optionally upload image(s)
 					</label>
 					<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
 						<div class="space-y-1 text-center">
@@ -178,14 +182,14 @@
 								<path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 							</svg>
 							<div class="flex text-sm text-gray-600">
-								<label for="file-upload" class="relative cursor-pointer bg-emerald-600 rounded-md font-medium text-emerald-600 hover:text-emerald-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-									<span class="px-4 text-white">Upload a file</span>
-									<input id="file-upload" name="file-upload" type="file" class="sr-only" />
+								<label for="images" class="relative cursor-pointer bg-emerald-600 rounded-md font-medium text-emerald-600 hover:text-emerald-800 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+									<span class="px-4 text-white">Upload images</span>
+									<input id="images" name="images" type="file" class="sr-only" accept=".png,.jpg,.jpeg" multiple />
 								</label>
 								<p class="pl-1 text-emerald-800">or drag and drop</p>
 							</div>
 							<p class="text-xs text-emerald-800">
-								PNG, JPG, GIF up to 10MB
+								PNG, JPG, JPEG up to 10MB
 							</p>
 						</div>
 					</div>
@@ -213,19 +217,19 @@
 		<nav aria-label="Footer Nav " class="mt-12">
 			<ul class="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75 hover:underline hover:underline-offset-4" href="/about">
 						About
 					</a>
 				</li>
 
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75 hover:underline hover:underline-offset-4" href="/ ">
 						Services
 					</a>
 				</li>
 
 				<li>
-					<a class="text-white transition hover:text-gray-700/75" href="/ ">
+					<a class="text-white transition hover:text-gray-50/75 hover:underline hover:underline-offset-4" href="/ ">
 						Projects
 					</a>
 				</li>

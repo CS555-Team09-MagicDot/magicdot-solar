@@ -21,9 +21,10 @@
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "express": "^4.18.2",
+        "express-fileupload": "^1.4.0",
         "express-handlebars": "^6.0.7",
         "express-session": "^1.17.3",
-        "fs": "^0.0.1-security",
+        "images": "^3.2.4",
         "mongodb": "^5.1.0",
         "nodemailer": "^6.9.1",
         "pdfkit": "^0.13.0",

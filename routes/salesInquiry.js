@@ -12,17 +12,17 @@ router.route("/").post(async (req, res) => {
 		req.body.subject = validators.validateSubject(req.body.subject);
 		req.body.message = validators.validateMessage(req.body.message);
 	} catch (e) {
-		return res.status(e.status).json({ error: e });
+		return res.status(e.status).render("homepage", { error: e.message });
 	}
 
 	try {
-		let createInquiry = await salesInquiryData.newInquiry(req.body.firstName, req.body.lastName, req.body.email, req.body.phoneNumber, req.body.subject, req.body.message);
+		let createInquiry = await salesInquiryData.newInquiry(req.body.firstName, req.body.lastName, req.body.email, req.body.phoneNumber, req.body.subject, req.body.message, req.files);
 		if (createInquiry) {
 			return res.status(200).render("homepage", { inquirySuccess: true });
 		}
 	} catch (e) {
 		console.log(e);
-		return res.status(500).json({ error: e.message });
+		return res.status(500).render("homepage", { error: e.message });
 	}
 });
 

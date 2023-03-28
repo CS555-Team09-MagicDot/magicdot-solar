@@ -3,13 +3,20 @@ const salesInquiry = collections.salesInquiry;
 const ObjectId = require("mongodb").ObjectId;
 const validators = require("../validators");
 
-const newInquiry = async (firstName, lastName, email, phoneNumber, subject, message) => {
+const newInquiry = async (firstName, lastName, email, phoneNumber, subject, message, files) => {
 	firstName = validators.validateName(firstName, "first name");
 	lastName = validators.validateName(lastName, "last name");
 	email = validators.validateEmail(email);
 	phoneNumber = validators.validatePhone(phoneNumber);
 	subject = validators.validateSubject(subject);
 	message = validators.validateMessage(message);
+	let imageArray = new Array();
+	const { images } = files;
+	if (Array.isArray(images)) {
+		imageArray = images.map((image) => `data:image/png;base64,${image.data.toString("base64")}`);
+	} else {
+		imageArray.push(`data:image/png;base64,${images.data.toString("base64")}`);
+	}
 
 	const inquiry = {
 		customerName: `${firstName} ${lastName}`,
@@ -18,6 +25,7 @@ const newInquiry = async (firstName, lastName, email, phoneNumber, subject, mess
 		status: true,
 		subject: subject,
 		message: message,
+		initialImages: imageArray,
 		salesRepresentativeAssigned: {},
 		messages: [],
 	};
@@ -27,29 +35,6 @@ const newInquiry = async (firstName, lastName, email, phoneNumber, subject, mess
 	if (!insertInquiryInfo.acknowledged || !insertInquiryInfo.insertedId) throw { status: 500, message: "Could not create new inquiry" };
 
 	return true;
-};
-
-const newInquiry2 = async (customerName, customerEmail, customerPhoneNumber, subject, message) => {
-	const salesInquiryCollection = await salesInquiry();
-
-	const inquiry = {
-		customerName: customerName,
-		customerEmail: customerEmail,
-		customerPhoneNumber: customerPhoneNumber,
-		status: true,
-		subject: subject,
-		message: message,
-		salesRepresentativeAssigned: {},
-		messages: [],
-	};
-
-	const insertInfo = await salesInquiryCollection.insertOne(inquiry);
-
-	if (!insertInfo.acknowledged || !insertInfo.insertedId) throw "Could not create inquiry";
-
-	const newId = insertInfo.insertedId.toString();
-	const inq = await getInquiryById(newId);
-	return inq;
 };
 
 async function getSalesInquiryList() {
@@ -128,7 +113,6 @@ const closeSalesInquiry = async (id) => {
 
 module.exports = {
 	newInquiry,
-	newInquiry2,
 	getSalesInquiryList,
 	getInquiryById,
 	getInquiry,
