@@ -56,7 +56,7 @@ router
       //let userData = await users.checkUser(data.email, data.password);
       //Temporary Login Setup
       const userCollection = await usersdata();
-      const user = await userCollection.findOne({ email: data.email });
+      const user = await users.checkUser(data.email, data.password);
       if (!user) throw { status: 400, message: "Incorrect email or password" };
       const userData = {
         _id: user._id.toString(),
