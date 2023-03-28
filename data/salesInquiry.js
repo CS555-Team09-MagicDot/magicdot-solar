@@ -48,6 +48,28 @@ async function getSalesInquiryList() {
 	return inquiryList;
 }
 
+async function getActiveSalesInquiryList() {
+	const salesInquiryCollection = await salesInquiry();
+	const inquiryList = await salesInquiryCollection.find({status: true}).toArray();
+
+	if (inquiryList === null) return [];
+	for (i in inquiryList) {
+		inquiryList[i]._id = inquiryList[i]._id.toString();
+	}
+	return inquiryList;
+}
+
+async function getClosedSalesInquiryList() {
+	const salesInquiryCollection = await salesInquiry();
+	const inquiryList = await salesInquiryCollection.find({status: false}).toArray();
+
+	if (inquiryList === null) return [];
+	for (i in inquiryList) {
+		inquiryList[i]._id = inquiryList[i]._id.toString();
+	}
+	return inquiryList;
+}
+
 const getInquiryById = async (id) => {
 	// id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
@@ -58,25 +80,32 @@ const getInquiryById = async (id) => {
 };
 
 const getInquiry = async (filters) => {
-	const { firstName, secondName, email, phoneNumber, search } = filters;
-	const findQuery = {};
-	findQuery["firstName"] = { $regex: search || firstName, $options: "i" };
-	findQuery["secondName"] = { $regex: search || secondName, $options: "i" };
-	findQuery["email"] = { $regex: search || email, $options: "i" };
-	findQuery["phoneNumber"] = { $regex: search || phoneNumber, $options: "i" };
-	const getInquiries = salesInquiryCollection.find(findQuery);
-	if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
-	getInquiries = getInquiries.map((inq) => {
-		inq._id = inq._id.toString();
-		return inq;
-	});
-	return getInquiries;
+  const { firstName, secondName, email, phoneNumber, search } = filters;
+  const findQuery = {};
+  findQuery["firstName"] = { $regex: search || firstName || "", $options: "i" };
+  findQuery["secondName"] = {
+    $regex: search || secondName || "",
+    $options: "i",
+  };
+  findQuery["email"] = { $regex: search || email || "", $options: "i" };
+  findQuery["phoneNumber"] = {
+    $regex: search || phoneNumber || "",
+    $options: "i",
+  };
+  const salesInquiryCollection = await salesInquiry();
+  let getInquiries = await salesInquiryCollection.find(findQuery).pretty();
+  if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
+  getInquiries = getInquiries.map((inq) => {
+    inq._id = inq._id.toString();
+    return inq;
+  });
+  return getInquiries;
 };
 
 const closeSalesInquiry = async (id) => {
 	id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
-	const closeInquiry = await salesInquiryCollection.updateOne({ _id: ObjectId(id) }, { $set: { status: false } });
+	const closeInquiry = await salesInquiryCollection.updateOne({ _id: new ObjectId(id) }, { $set: { status: false } });
 	if (closeInquiry.modifiedCount === 0) throw { status: 500, message: "Could not close inquiry" };
 	const updatedInquiry = await getInquiryById(id);
 	return updatedInquiry;
@@ -86,5 +115,8 @@ module.exports = {
 	newInquiry,
 	getSalesInquiryList,
 	getInquiryById,
+	getInquiry,
 	closeSalesInquiry,
+	getActiveSalesInquiryList,
+	getClosedSalesInquiryList
 };
