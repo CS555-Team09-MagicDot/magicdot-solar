@@ -11,11 +11,13 @@ const newInquiry = async (firstName, lastName, email, phoneNumber, subject, mess
 	subject = validators.validateSubject(subject);
 	message = validators.validateMessage(message);
 	let imageArray = new Array();
-	const { images } = files;
-	if (Array.isArray(images)) {
-		imageArray = images.map((image) => `data:image/png;base64,${image.data.toString("base64")}`);
-	} else {
-		imageArray.push(`data:image/png;base64,${images.data.toString("base64")}`);
+	if (files) {
+		const { images } = files;
+		if (Array.isArray(images)) {
+			imageArray = images.map((image) => `data:image/png;base64,${image.data.toString("base64")}`);
+		} else {
+			imageArray.push(`data:image/png;base64,${images.data.toString("base64")}`);
+		}
 	}
 
 	const inquiry = {
@@ -50,7 +52,7 @@ async function getSalesInquiryList() {
 
 async function getActiveSalesInquiryList() {
 	const salesInquiryCollection = await salesInquiry();
-	const inquiryList = await salesInquiryCollection.find({status: true}).toArray();
+	const inquiryList = await salesInquiryCollection.find({ status: true }).toArray();
 
 	if (inquiryList === null) return [];
 	for (i in inquiryList) {
@@ -61,7 +63,7 @@ async function getActiveSalesInquiryList() {
 
 async function getClosedSalesInquiryList() {
 	const salesInquiryCollection = await salesInquiry();
-	const inquiryList = await salesInquiryCollection.find({status: false}).toArray();
+	const inquiryList = await salesInquiryCollection.find({ status: false }).toArray();
 
 	if (inquiryList === null) return [];
 	for (i in inquiryList) {
@@ -80,26 +82,26 @@ const getInquiryById = async (id) => {
 };
 
 const getInquiry = async (filters) => {
-  const { firstName, secondName, email, phoneNumber, search } = filters;
-  const findQuery = {};
-  findQuery["firstName"] = { $regex: search || firstName || "", $options: "i" };
-  findQuery["secondName"] = {
-    $regex: search || secondName || "",
-    $options: "i",
-  };
-  findQuery["email"] = { $regex: search || email || "", $options: "i" };
-  findQuery["phoneNumber"] = {
-    $regex: search || phoneNumber || "",
-    $options: "i",
-  };
-  const salesInquiryCollection = await salesInquiry();
-  let getInquiries = await salesInquiryCollection.find(findQuery).pretty();
-  if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
-  getInquiries = getInquiries.map((inq) => {
-    inq._id = inq._id.toString();
-    return inq;
-  });
-  return getInquiries;
+	const { firstName, secondName, email, phoneNumber, search } = filters;
+	const findQuery = {};
+	findQuery["firstName"] = { $regex: search || firstName || "", $options: "i" };
+	findQuery["secondName"] = {
+		$regex: search || secondName || "",
+		$options: "i",
+	};
+	findQuery["email"] = { $regex: search || email || "", $options: "i" };
+	findQuery["phoneNumber"] = {
+		$regex: search || phoneNumber || "",
+		$options: "i",
+	};
+	const salesInquiryCollection = await salesInquiry();
+	let getInquiries = await salesInquiryCollection.find(findQuery).pretty();
+	if (!getInquiry) throw { status: 404, message: "Inquiry not found" };
+	getInquiries = getInquiries.map((inq) => {
+		inq._id = inq._id.toString();
+		return inq;
+	});
+	return getInquiries;
 };
 
 const closeSalesInquiry = async (id) => {
@@ -118,5 +120,5 @@ module.exports = {
 	getInquiry,
 	closeSalesInquiry,
 	getActiveSalesInquiryList,
-	getClosedSalesInquiryList
+	getClosedSalesInquiryList,
 };

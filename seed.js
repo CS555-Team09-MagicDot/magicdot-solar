@@ -8,13 +8,6 @@ async function main() {
 
 	await db.dropDatabase();
 
-	// try {
-	// 	inquiry1 = await salesInquiry.newInquiry2("Hem Patel", "hempatel1234@gmail.com", "000-000-0000", "Solar Home Rooftop", "I want to install solar system");
-	// 	console.log(inquiry1)
-	// } catch (e) {
-	// 	console.log(e);
-	// }
-
 	try {
 		inquiry1 = await salesInquiry.newInquiry("Hem", "Patel", "hempatel1234@gmail.com", "9871361803", "Solar Home Rooftop", "I want to install solar system");
 		console.log(inquiry1);
