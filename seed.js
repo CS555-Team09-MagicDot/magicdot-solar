@@ -9,36 +9,43 @@ async function main() {
 	await db.dropDatabase();
 
 	try {
-		inquiry1 = await salesInquiry.newInquiry("Hem", "Patel", "hempatel1234@gmail.com", "9871361803", "Solar Home Rooftop", "I want to install solar system");
+		const inquiry1 = await salesInquiry.newInquiry("Hem", "Patel", "hempatel1234@gmail.com", "9871361803", "Solar Home Rooftop", "I want to install solar system");
 		console.log(inquiry1);
 	} catch (e) {
 		console.log(e);
 	}
 
 	try {
-		inquiry2 = await salesInquiry.newInquiry("Jay", "Patel", "patelj1799@gmail.com", "9871361803", "Solar System", "I want to install solar system");
+		const inquiry2 = await salesInquiry.newInquiry("Jay", "Patel", "patelj1799@gmail.com", "9871361803", "Solar System", "I want to install solar system");
 		console.log(inquiry2);
 	} catch (e) {
 		console.log(e);
 	}
 
-	// try {
-	// 	const newUser = await usersData.createUser("Dave", "Harvey", "sales representative", "daveh@gmail.com", "7865382167", "Test@123");
-	// 	console.log(newUser);
-	// } catch (error) {
-	// 	console.error(error);
-	// }
-
 	try {
-		user1 = await usersData.createUser("Sales", "Account", "sales representative", "sales@gmail.com", "7698654321", "Sales@123");
-		//console.log(user1)
+		const user1 = await usersData.createUser("Sales", "Account", "sales representative", "sales@gmail.com", "7698654321", "Sales@123");
+		console.log(user1);
 	} catch (e) {
 		console.log(e);
 	}
 
 	try {
-		user1 = await usersData.createUser("Operations", "Account", "operational manager", "operations@gmail.com", "7698654321", "Test@123");
-		//console.log(user1)
+		const user2 = await usersData.createUser("Operations", "Account", "operational manager", "operations@gmail.com", "7698654321", "Test@123");
+		console.log(user2);
+	} catch (e) {
+		console.log(e);
+	}
+
+	try {
+		const itAdmin1 = await usersData.createUser("ItAdmin", "Account", "it admin", "it@gmail.com", "7698654321", "Test@123");
+		console.log(itAdmin1);
+	} catch (e) {
+		console.log(e);
+	}
+
+	try {
+		const customer1 = await usersData.createUser("customer", "Account", "customer", "customer@gmail.com", "7698654321", "Test@123");
+		console.log(customer1);
 	} catch (e) {
 		console.log(e);
 	}

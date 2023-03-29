@@ -11,7 +11,9 @@ router.route("/").get(async (req, res) => {
 		if (!itUser) {
 			await users.createUser("IT ADMIN", "IT ADMIN", "it admin", "it_admin@magicdot.com", "1231231234", "ItAdmin@12345");
 		}
-		return res.status(200).render("homepage", { title: "Magicdot - Home" });
+		let isLoggedIn = false;
+		if (req.session.user) isLoggedIn = true;
+		return res.status(200).render("homepage", { title: "Magicdot - Home", isLoggedIn: isLoggedIn });
 	} catch (e) {
 		return res.status(e.status).render("homepage", { error: e.message });
 	}
@@ -30,9 +32,9 @@ router
 	.get(async (req, res) => {
 		try {
 			if (req.session.user) {
-				if (req.session.role === "sales representative") return res.status(200).redirect("/sales");
-				else if (req.session.role === "customer") return res.status(200).redirect("/customer");
-				else if (req.session.role === "it admin") return res.status(200).redirect("/it_admin");
+				if (req.session.user.role === "sales representative") return res.status(200).redirect("/sales");
+				else if (req.session.user.role === "customer") return res.status(200).redirect("/customer");
+				else if (req.session.user.role === "it admin") return res.status(200).redirect("/it_admin");
 			}
 			return res.status(200).render("login", { title: "Magicdot - Admin" });
 		} catch (e) {
@@ -42,10 +44,6 @@ router
 	.post(async (req, res) => {
 		try {
 			let data = req.body;
-			//data.email = validators.validateEmail(data.email);
-			//let userData = await users.checkUser(data.email, data.password);
-			//Temporary Login Setup
-			// const userCollection = await usersdata();
 			const user = await users.checkUser(data.email, data.password);
 			if (!user) throw { status: 400, message: "Incorrect email or password" };
 			const userData = {
@@ -59,6 +57,7 @@ router
 			req.session.user = userData;
 			if (userData.role === "sales representative") return res.status(200).redirect("/sales");
 			else if (userData.role === "customer") return res.status(200).redirect("/customer");
+			else if (userData.role === "operational manager") return res.status(200).redirect("/operations");
 			else return res.status(200).render("homepage");
 		} catch (e) {
 			return res.status(e.status).render("homepage", { error: e.message });
