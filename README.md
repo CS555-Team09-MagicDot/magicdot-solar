@@ -36,7 +36,7 @@ npm install
 npm start
 ```
 
-**Open your browser and navigate to** https://localhost:3000
+**Open your browser and navigate to** http://localhost:3000
 
 ## Features
 
