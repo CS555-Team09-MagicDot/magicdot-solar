@@ -3,7 +3,7 @@ const users = require("../data/users");
 const router = express.Router();
 
 router
-	.route("/login")
+	.route("/")
 	.get(async (req, res) => {
 		try {
 			if (req.session.user) {
