@@ -1,4 +1,6 @@
 const homepageRoutes = require("./homepage");
+const loginRoutes = require("./login");
+const logoutRoutes = require("./logout");
 const salesRoutes = require("./sales");
 const inquiryRoutes = require("./salesInquiry");
 const operationsDashboard = require("./operations");
@@ -7,7 +9,9 @@ const path = require("path");
 
 const constructorMethod = (app) => {
 	app.use("/", homepageRoutes);
-	app.use("/", salesRoutes);
+	app.use("/login", loginRoutes);
+	app.use("/logout", logoutRoutes);
+	app.use("/sales", salesRoutes);
 	app.use("/inquiry", inquiryRoutes);
 	app.use("/operations", operationsDashboard);
 	app.use("/customer", customerRoutes);
