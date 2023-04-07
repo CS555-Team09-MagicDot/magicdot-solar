@@ -33,9 +33,8 @@ router
 			if (userData.role === "sales representative") return res.status(200).redirect("/sales");
 			else if (userData.role === "customer") return res.status(200).redirect("/customer");
 			else if (userData.role === "operational manager") return res.status(200).redirect("/operations");
-			else return res.status(200).render("homepage");
 		} catch (e) {
-			return res.status(e.status).render("homepage", { error: e.message });
+			return res.status(e.status).render("login", { error: e.message });
 		}
 	});
 

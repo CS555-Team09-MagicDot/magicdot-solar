@@ -22,6 +22,11 @@
 
 				<input type="submit" value="Log In" class="bg-emerald-600 rounded-lg text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8" />
 			</form>
+			{{#if error}}
+				<div class="text-red-500">
+					{{error}}
+				</div>
+			{{/if}}
 		</div>
 
 	</div>
