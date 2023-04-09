@@ -18,7 +18,6 @@ router.route("/").get(async (req, res) => {
 			closedSalesInquiryList: closedInquiryList,
 			title: "Sales Dashboard",
 		});
-		//   return res.status(200).render('saleshomepage', {title: "Sales Dashboard", isLoggedIn : isLoggedIn, haserror:haserror});
 	} catch (error) {
 		haserror = true;
 		return res.status(400).render("error", { error: error });
@@ -42,6 +41,39 @@ router.route("/generateaccount/:id").get(async (req, res) => {
 		var update = await salesInquiryData.closeSalesInquiry(req.params.id);
 		console.log(update);
 
+		return res.redirect("/sales");
+	} catch (error) {
+		haserror = true;
+		return res.status(400).render("error", { error: error });
+	}
+});
+
+router.route("/createprojectreq/:id").get(async (req, res) => {
+	let haserror = false;
+	try {
+		if (!req.session.user || req.session.user.role !== "sales representative") {
+			return res.status(200).redirect("/");
+		}
+		var inquiryData = await salesInquiryData.getInquiryById(req.params.id);
+
+		return res.status(200).render("projectRequest", {
+			inquiryData: inquiryData,
+			customerid: inquiryData.customerid,
+			title: "Create Project Request"
+		});
+	} catch (error) {
+		haserror = true;
+		return res.status(400).render("error", { error: error });
+	}
+});
+
+router.route("/createprojectreq").post(async (req, res) => {
+	let haserror = false;
+	try {
+		if (!req.session.user || req.session.user.role !== "sales representative") {
+			return res.status(200).redirect("/");
+		}
+		console.log("Here you are.......")
 		return res.redirect("/sales");
 	} catch (error) {
 		haserror = true;

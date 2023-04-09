@@ -1,0 +1,14 @@
+{{inquiryData.customerEmail}}
+<br><br>
+
+<form class="mt-6 pb-6" action="/sales/createprojectreq" method="POST" encType="multipart/form-data">
+
+    {{!-- this will be hidden --}}
+    <div class="mt-4">
+		<label class="text-emerald-900" for="Customer ID">Customer ID</label>
+		<input id="customerid" name="customerid" type="text" value="{{customerid}}" readonly class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring"/>
+	</div>
+
+
+    <button type="submit " class="w-full block bg-emerald-700 hover:bg-emerald-800 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-8">Submit</button>
+</form>

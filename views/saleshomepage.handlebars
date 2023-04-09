@@ -49,6 +49,7 @@
 				<th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Email</th>
 				<th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Phone</th>
 				<th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Subject</th>
+				<th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Action</th>
 			</tr>
 		</thead>
 
@@ -60,6 +61,7 @@
 					<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{customerEmail}}</td>
 					<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{customerPhoneNumber}}</td>
 					<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{subject}}</td>
+					<td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500"><a href="/sales/createprojectreq/{{_id}}" class="px-6 py-3 text-blue-100 no-underline bg-green-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">Create Project Request</a></td>
 				</tr>
 
 			{{/each}}
