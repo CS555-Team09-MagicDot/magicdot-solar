@@ -1,0 +1,80 @@
+<div class="flex">
+  <div class="w-1/4 p-4">
+    <h2 class="text-lg font-bold mb-4">Past Payments</h2>
+    <ul class="list-disc pl-5">
+      {{#each payments}}
+      <li>
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="font-bold">Payment on {{this.paymentPlan}}</span><br>
+            <span>Payment date: {{this.date}}</span><br>
+            <span>Amount: ${{this.ammount}}</span>
+          </div>
+          <a href="/customer/payments/{{this._id}}" target="_blank" class="px-2 py-1 bg-blue-500 text-white rounded">Download</a>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+
+
+  <div class="w-3/4 p-4">
+  
+  <h1 class="text-2xl font-bold mb-5">Select Payment Plan</h1>
+  <form class="max-w-sm"  method="POST" action="/customer/payments/process-payment">
+    <div class="mb-5">
+      <input type="radio" id="full-payment" name="payment-plan" value="full-payment" class="mr-2" data-amount="500.00">
+      <label for="full-payment">Full Payment</label>
+      <span class="ml-5 font-bold">$500.00</span>
+    </div>
+    <div class="mb-5">
+      <input type="radio" id="emi-6" name="payment-plan" value="emi-6" class="mr-2" data-amount="550.00" data-installment="91.67">
+      <label for="emi-6">EMI for 6 months</label>
+      <span class="ml-5 font-bold">$550.00 ($91.67/month)</span>
+    </div>
+    <div class="mb-5">
+      <input type="radio" id="emi-12" name="payment-plan" value="emi-12" class="mr-2" data-amount="600.00" data-installment="50.00">
+      <label for="emi-12">EMI for 12 months</label>
+      <span class="ml-5 font-bold">$600.00 ($50.00/month)</span>
+    </div>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Pay
+    </button>
+  </form>
+  
+  <div class="mt-10 border-t-2 border-gray-300 pt-5">
+    <h2 class="text-lg font-bold mb-5">Summary</h2>
+    <div class="flex justify-between mb-3">
+      <span>Total Amount:</span>
+      <span class="font-bold" id="total-amount">$500.00</span>
+    </div>
+    <div class="flex justify-between">
+      <span>Payment Plan:</span>
+      <span class="font-bold" id="payment-plan">Full Payment</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const radioButtons = document.querySelectorAll('input[type="radio"]');
+  const totalAmount = document.querySelector('#total-amount');
+  const paymentPlan = document.querySelector('#payment-plan');
+
+  // Update total amount and payment plan when radio button is clicked
+ 
+
+
+  // Update total amount and payment plan when radio button is clicked
+  radioButtons.forEach(function(radioButton) {
+    radioButton.addEventListener('click', function() {
+      const amount = this.dataset.amount;
+      const installment = this.dataset.installment;
+      const plan = this.nextElementSibling.textContent.trim();
+      totalAmount.textContent = `$${amount}`;
+      paymentPlan.textContent = plan;
+      if (installment) {
+        totalAmount.textContent += ` ($${installment}/month)`;
+      }
+    });
+  });
+</script>

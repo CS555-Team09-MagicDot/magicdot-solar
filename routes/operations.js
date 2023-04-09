@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const inventoryData = require("../data/inventory");
 
 router.route("/").get(async (req, res) => {
   if (!req.session.user || req.session.user.role !== "operational manager") {
@@ -62,11 +63,7 @@ router.route("/inventory").get(async (req, res) => {
     return res.redirect("/");
   }
   try {
-    const inventory = [
-      {id: 1, name: "Solar Panel", quantity: 892},
-      {id: 2, name: "Battery 15 kWh", quantity: 1263},
-      {id: 3, name: "Inverter", quantity: 271},
-    ];
+    const inventory = await inventoryData.getAllInventoryList();
 
     return res.status(200).render("inventory", {
       title: "Operations Dashboard - Inventory",
