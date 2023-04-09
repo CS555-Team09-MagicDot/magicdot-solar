@@ -22,7 +22,7 @@ router.route("/").post(async (req, res) => {
 		}
 	} catch (e) {
 		console.log(e);
-		return res.status(500).render("homepage", { error: e.message });
+		return res.status(e.status).render("homepage", { inquiryError: e.message });
 	}
 });
 
@@ -48,25 +48,22 @@ router.route("/getInq", async (req, res) => {
 
 router.route("/getData").get(async (req, res) => {
 	try {
-	  req.body.firstName = validators.validateName(
-		req.body.firstName,
-		"first name"
-	  );
-	  req.body.lastName = validators.validateName(req.body.lastName, "last name");
-	  req.body.email = validators.validateEmail(req.body.email);
-	  req.body.phoneNumber = validators.validatePhone(req.body.phoneNumber);
+		req.body.firstName = validators.validateName(req.body.firstName, "first name");
+		req.body.lastName = validators.validateName(req.body.lastName, "last name");
+		req.body.email = validators.validateEmail(req.body.email);
+		req.body.phoneNumber = validators.validatePhone(req.body.phoneNumber);
 	} catch (e) {
-	  return res.status(e.status).json({ error: e });
+		return res.status(e.status).json({ error: e });
 	}
-  
+
 	try {
-	  const inquiries = await salesInquiryData.getInquiry(req.body);
-	  return res.status(200).render("saleshomepage", {
-		inquiries: inquiries,
-	  });
+		const inquiries = await salesInquiryData.getInquiry(req.body);
+		return res.status(200).render("salesDashboard", {
+			inquiries: inquiries,
+		});
 	} catch (e) {
-	  return res.status(500).json({ error: e.message });
+		return res.status(500).json({ error: e.message });
 	}
-  });
+});
 
 module.exports = router;

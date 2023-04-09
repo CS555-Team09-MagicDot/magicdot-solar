@@ -1,0 +1,70 @@
+<div class="flex min-h-screen lg:max-h-screen">
+	<div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between z-10">
+		<div class="flex flex-col items-center">
+			<a href="/sales">
+				<div class="bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-lg inline-block">
+					<img src="/public/img/logo_white.svg" style="width:20px" />
+				</div>
+			</a>
+			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
+			<a href="/sales/chat">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"></path>
+					</svg>
+
+				</div>
+			</a>
+			<a href="/operations/inventory">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="/public/img/inventory.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/logout">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="/public/img/logout.svg" style="width:20px" />
+				</div>
+			</a>
+		</div>
+	</div>
+	<main class="w-full">
+		<div class="bg-gray-100 min-h-screen bg-[url('/public/img/solar-request-form.jpg')]">
+
+			<div class="w-full h-screen lg:p-24 md:p-12 sm:p-11 backdrop-blur-md">
+				<div class="w-fit self-center ml-20 px-8 max-h-fit lg:py-10 border rounded-lg bg-white">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">New Project Request Form</h1>
+					<hr class="m-2" />
+					<form class="max-w-screen-md" action="/sales/{{inquiryId}}/requirementsubmission" method="POST">
+						<div class="grid grid-cols-4 mt-4 justify-items-start">
+							<label class="w-fit col-span-2 text-emerald-900 text-lg" for="requirements">Total coverage area:</label>
+							<div class="col-span-2 justify-items-start">
+								<input id="totalCoverageArea" name="totalCoverageArea" type="text" placeholder="1000" class="w-fit px-4 py-2 mt-2 ml-4 mr-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" required /><span>sq. ft.</span>
+							</div>
+						</div>
+						<div class="grid grid-cols-4 mt-4 justify-items-start">
+							<label class="w-fit col-span-2 text-emerald-900 text-lg" for="requirements">Previous year annual usage:</label>
+							<div class="col-span-2 justify-items-start">
+								<input id="previousYearAnnualUsage" name="previousYearAnnualUsage" type="text" placeholder="10000" class="w-fit px-4 py-2 mt-2 ml-4 mr-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" required /><span>kWh</span>
+							</div>
+						</div>
+						<div class="grid grid-cols-4 mt-4 justify-items-start">
+							<label class="w-fit col-span-2 text-emerald-900 text-lg" for="requirements">Previous year annual energy cost:</label>
+							<div class="col-span-2 justify-items-start">
+								<span>$</span><input id="previousYearAnnualEnergyCost" name="previousYearAnnualEnergyCost" type="text" placeholder="5000" class="w-fit px-4 py-2 mt-2 mx-2 mr-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" required />
+							</div>
+						</div>
+						<div class="grid grid-cols-4 mt-4 justify-items-start">
+							<label class="w-fit col-span-2 text-emerald-900 text-lg" for="requirements">Address:</label>
+							<div class="col-span-2 justify-items-start">
+								<textarea id="address" name="address" placeholder="16th Street 3451, Woodrow Ave" class="w-fit px-4 py-2 mt-2 ml-4 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" required></textarea>
+							</div>
+						</div>
+						<div class="grid grid-cols-4 mt-4 justify-items-center">
+							<button type="submit" class="w-fit bg-emerald-700 hover:bg-emerald-800 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-8">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>

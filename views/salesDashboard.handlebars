@@ -1,0 +1,89 @@
+<div class="flex">
+	<div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
+		<div class="flex flex-col items-center">
+			<a href="/sales">
+				<div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
+					<img src="public/img/logo_white.svg" style="width:20px" />
+				</div>
+			</a>
+			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
+			<a href="/sales">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/dashboard.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/sales">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/inventory.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/logout">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/logout.svg" style="width:20px" />
+				</div>
+			</a>
+		</div>
+	</div>
+	<main class="ml-20 w-full">
+		<main class="bg-gray-100 min-h-screen">
+			<div class="grid lg:grid-cols-5 gap-4 p-4">
+				<div class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">{{totalInquiriesCount}}</p>
+						<p class="text-gray-600">Total Inquiries until now</p>
+					</div>
+				</div>
+				<div class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">{{newInquiryListCount}}</p>
+						<p class="text-gray-600">New Inquiries</p>
+					</div>
+				</div>
+				<div class="col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">{{ongoingInquiryListCount}}</p>
+						<p class="text-gray-600">Ongoing Inquiries</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
+				<div class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">New Inquiries</h1>
+					<ul>
+						{{#each newInquiryList}}
+							<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center">
+								<div class="bg-teal-100 rounded-lg p-5">
+									<img src="../public/img/solar.svg" class="text-purple-800 w-[40px]" />
+								</div>
+								<div class="pl-4">
+									<p class="text-gray-800 font-bold">{{subject}}</p>
+									<p class="text-gray-400 text-sm">{{message}}</p>
+								</div>
+								<p class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/sales/generateaccount/{{_id}}"><button class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg">Claim</button></a></p>
+							</li>
+						{{/each}}
+					</ul>
+
+				</div>
+				<div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">My Ongoing Inquiries</h1>
+					<ul>
+						{{#each ongoingInquiryList}}
+							<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer">
+								<div class="bg-yellow-100 rounded-lg p-5">
+									<img src="../public/img/solar-panel.svg" class="text-purple-800 w-[40px]" />
+								</div>
+								<div class="pl-4">
+									<p class="text-gray-800 font-bold">{{subject}}</p>
+									<p class="text-gray-400 text-sm">{{message}}</p>
+								</div>
+								<p class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/sales/inquirydetails/{{_id}}"><button class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg">Details</button></a></p>
+							</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</main>
+	</main>
+</div>

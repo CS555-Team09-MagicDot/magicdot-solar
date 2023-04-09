@@ -4,6 +4,11 @@ const usersData = require("./data/users");
 const projectsData = require("./data/project");
 const inventoryData = require("./data/inventory");
 
+let sales1 = null;
+let sales2 = null;
+let customer1 = null;
+let customer1inquiry = null;
+
 async function main() {
 	const db = await connection.dbConnection();
 
@@ -24,8 +29,15 @@ async function main() {
 	}
 
 	try {
-		const user1 = await usersData.createUser("Sales", "Account", "sales representative", "sales@gmail.com", "7698654321", "Sales@123");
-		console.log(user1);
+		sales1 = await usersData.createUser("Sales", "Account", "sales representative", "sales@gmail.com", "7698654321", "Test@123");
+		console.log(sales1);
+	} catch (e) {
+		console.log(e);
+	}
+
+	try {
+		sales2 = await usersData.createUser("Salestwo", "Account", "sales representative", "sales2@gmail.com", "7698654321", "Test@123");
+		console.log(sales2);
 	} catch (e) {
 		console.log(e);
 	}
@@ -45,11 +57,23 @@ async function main() {
 	}
 
 	try {
-		const customer1 = await usersData.createUser("customer", "Account", "customer", "customer@gmail.com", "7698654321", "Test@123");
+		customer1inquiry = await salesInquiry.newInquiry("customer", "Account", "customer@gmail.com", "7698654321", "customer", "I want to install solar system");
+	} catch (e) {
+		console.log(e);
+	}
+
+	try {
+		customer1 = await usersData.createUser("customertwo", "Account", "customer", "customer2@gmail.com", "7698654321", "Test@123");
 		console.log(customer1);
 	} catch (e) {
 		console.log(e);
 	}
+
+	// try {
+	// 	const assignSalesRep = await salesInquiry.assignSalesRep(customer1inquiry._id, sales1._id);
+	// } catch (e) {
+	// 	console.log(e);
+	// }
 
 	try {
 		const inventory1 = await inventoryData.createNewInventory("Solar Panel", "892");
