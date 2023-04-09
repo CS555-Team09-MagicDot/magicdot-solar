@@ -84,6 +84,7 @@
             Requests</h1>
           <ul>
             {{#each people}}
+              {{#unless people.approvalStatus}}
               <li
                 class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
               >
@@ -100,7 +101,9 @@
                 <p
                   class="lg:flex md:hidden absolute right-6 text-md font-medium"
                 >{{kwh}} kWh</p>
+                <a href="#">Show detail</a>
               </li>
+              {{/unless}}
             {{/each}}
           </ul>
 
@@ -111,6 +114,7 @@
           <h1 class="text-3xl font-medium text-teal-600 p-2">Ongoing Projects</h1>
           <ul>
             {{#each solarData}}
+            	{{#if solarData.approvalStatus}}
               <li
                 class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
               >
@@ -127,7 +131,9 @@
                 <p
                   class="lg:flex md:hidden absolute right-6 text-md font-medium"
                 >{{kWh}} kWh</p>
+                <a href="#">Show detail</a>
               </li>
+              {{/if}}
             {{/each}}
           </ul>
         </div>
