@@ -67,7 +67,7 @@ const createProject = async (name, description, startDate, endDate, status, appr
   
 };
 const getProjectById = async (projectId) => {
-	//projectId = validators.validateId(userId, "user");
+	projectId = validators.validateId(projectId, "project");
 	const projectCollection = await projects();
 	const project = await projectCollection.findOne({ _id: new ObjectId(projectId) });
 	if (!project) throw { status: 404, message: "Project not found" };
@@ -85,10 +85,24 @@ const getAllProjects = async () => {
   	return arr;
 };
 
+const getProjectsByConstructionCrew = async (constructionCrew) => {
+	const projectCollection = await projects();
+	const projectsByCrew = await projectCollection.find({ constructionCrew: constructionCrew }).toArray();
+	if (projectsByCrew === null) return [];
+	for(i in projectsByCrew) {
+		projectsByCrew[i]._id=projectsByCrew[i]._id.toString();
+	}
+	return projectsByCrew;
+	 
+  };
+  
+
 module.exports = {
 	getApprovedProjects,
 	getPendingProjects,
     createProject,
 	getAllProjects,
-	getProjectById
+	getProjectById,
+	getProjectsByConstructionCrew
+
 };
