@@ -78,13 +78,10 @@
 
       <div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
         <div
-          class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white"
-        >
-          <h1 class="text-3xl font-medium text-teal-600 p-2">New Project
-            Requests</h1>
+          class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white">
+          <h1 class="text-3xl font-medium text-teal-600 p-2">New Project Requests</h1>
           <ul>
-            {{#each people}}
-              {{#unless people.approvalStatus}}
+            {{#each projectRequestList}}
               <li
                 class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
               >
@@ -95,22 +92,17 @@
                   />
                 </div>
                 <div class="pl-4">
-                  <p class="text-gray-800 font-bold">{{name}}</p>
-                  <p class="text-gray-400 text-sm">{{address}}</p>
+                  <p class="text-gray-800 font-bold">{{subject}}</p>
+                  <p class="text-gray-400 text-sm">{{customerName}}</p>
                 </div>
-                <p
-                  class="lg:flex md:hidden absolute right-6 text-md font-medium"
-                >{{kwh}} kWh</p>
-                <a href="#">Show detail</a>
+                <p class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/operations/projectreqdetails/{{_id}}"><button class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg">Show Details</button></a></p>
               </li>
-              {{/unless}}
             {{/each}}
           </ul>
 
         </div>
         <div
-          class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll"
-        >
+          class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
           <h1 class="text-3xl font-medium text-teal-600 p-2">Ongoing Projects</h1>
           <ul>
             {{#each solarData}}
