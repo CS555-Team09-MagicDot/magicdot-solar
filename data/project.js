@@ -67,7 +67,7 @@ const createProject = async (name, description, startDate, endDate, status, appr
   
 };
 const getProjectById = async (projectId) => {
-	projectId = validators.validateId(projectId, "project");
+	//projectId = validators.validateId(projectId, "project");
 	const projectCollection = await projects();
 	const project = await projectCollection.findOne({ _id: new ObjectId(projectId) });
 	if (!project) throw { status: 404, message: "Project not found" };
@@ -118,8 +118,10 @@ const createProjectUsingRequest = async(reqObj, operationalManagerId) => {
 	const newProjectInfo = await projectsCollection.insertOne(newProject);
 	if (!newProjectInfo.acknowledged || !newProjectInfo.insertedId) throw { status: 500, message: "Could not create Project"};
 
+	newProjectInfo.insertedId = newProjectInfo.insertedId.toString();
+
     //console.log(newProjectInfo)
-	return newProjectInfo;
+	return getProjectById(newProjectInfo.insertedId);
 };
 
 module.exports = {
