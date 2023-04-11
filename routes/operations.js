@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const inventoryData = require("../data/inventory");
+const projectRequestData = require("../data/projectRequest");
+const projectData = require("../data/project");
 
 router.route("/").get(async (req, res) => {
   if (!req.session.user || req.session.user.role !== "operational manager") {
     return res.redirect("/");
   }
   try {
+    const projectRequestList = await projectRequestData.getAllProjectRequestDetailsList();
+
     const people = [
       {
         id: 1,
@@ -52,6 +56,7 @@ router.route("/").get(async (req, res) => {
       title: "Operations Dashboard",
       people: people,
       solarData: solarData,
+      projectRequestList: projectRequestList
     });
   } catch (error) {
     return res.status(400).render("error", {error: error});
@@ -69,6 +74,44 @@ router.route("/inventory").get(async (req, res) => {
       title: "Operations Dashboard - Inventory",
       inventory: inventory, // pass inventory data to the view
     });
+  } catch (error) {
+    return res.status(400).render("error", {error: error});
+  }
+});
+
+router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "operational manager") {
+    return res.redirect("/");
+  }
+  try {
+    // console.log(req.params.projectReqId)
+    const projectRequestDetails = await projectRequestData.getAllProjectRequestDetails(req.params.projectReqId);
+
+    return res.status(200).render("projectRequestDetails", {
+      title: "Project Request Details",
+      projectRequestDetails: projectRequestDetails // pass project details data to the view
+    });
+  } catch (error) {
+    return res.status(400).render("error", {error: error});
+  }
+});
+
+router.route("/createproject/:projectReqId").get(async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "operational manager") {
+    return res.redirect("/");
+  }
+  try {
+    
+    const projectRequestDetails = await projectRequestData.getAllProjectRequestDetails(req.params.projectReqId);
+    // console.log(projectRequestDetails);
+    const createProjectInfo = await projectData.createProjectUsingRequest(projectRequestDetails, req.session.user._id);
+    // console.log(projectRequestDetails);
+
+    // Chnaging Project Request Status
+    const updatedProjectRequest = await projectRequestData.closeProjectRequest(req.params.projectReqId);
+
+    return res.redirect("/operations");
+
   } catch (error) {
     return res.status(400).render("error", {error: error});
   }

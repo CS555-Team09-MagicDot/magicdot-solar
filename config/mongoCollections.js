@@ -18,5 +18,6 @@ module.exports = {
 	salesInquiry: getCollectionFn("salesInquiry"),
 	projects: getCollectionFn("projects"),
 	paymentDetails: getCollectionFn("paymentDetails"),
-	inventory: getCollectionFn("inventory")
+	inventory: getCollectionFn("inventory"),
+	projectRequest: getCollectionFn("projectRequest")
 };
