@@ -96,6 +96,31 @@ const getProjectsByConstructionCrew = async (constructionCrew) => {
 	 
   };
   
+const createProjectUsingRequest = async(reqObj, operationalManagerId) => {
+
+	const newProject = {
+		name: reqObj.subject,
+		customerId: reqObj.customerId,
+		salesRepresentative: reqObj.salesRepresentative,
+		area: reqObj.area,
+		annualUsage: reqObj.annualUsage,
+		annualCost: reqObj.annualCost,
+		address: reqObj.address,
+		startDate: new Date(),
+		endDate: null,
+		status: "approved",
+		constructionCrew: null,
+        operationsManager: operationalManagerId
+    };
+
+	const projectsCollection = await projects();
+
+	const newProjectInfo = await projectsCollection.insertOne(newProject);
+	if (!newProjectInfo.acknowledged || !newProjectInfo.insertedId) throw { status: 500, message: "Could not create Project"};
+
+    //console.log(newProjectInfo)
+	return newProjectInfo;
+};
 
 module.exports = {
 	getApprovedProjects,
@@ -103,6 +128,6 @@ module.exports = {
     createProject,
 	getAllProjects,
 	getProjectById,
-	getProjectsByConstructionCrew
-
+	getProjectsByConstructionCrew,
+	createProjectUsingRequest
 };

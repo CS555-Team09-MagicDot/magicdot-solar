@@ -1,4 +1,106 @@
-<p>hello</p>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+        }
 
-{{projectRequestDetails.area}}
-{{projectRequestDetails.address}}
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .project-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .details-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .details-item:last-child {
+            border-bottom: none;
+        }
+
+        .details-item .label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .details-item .value {
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0062cc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Project Details</h1>
+        <div class="project-details">
+            <div class="details-item">
+                <span class="label">Customer Name</span>
+                <span class="value">{{projectRequestDetails.customerName}}</span>
+            </div>
+            <div class="details-item">
+                <span class="label">Subject</span>
+                <span class="value">{{projectRequestDetails.subject}}</span>
+            </div>
+            <div class="details-item">
+                <span class="label">Area</span>
+                <span class="value">{{projectRequestDetails.area}}</span>
+            </div>
+            <div class="details-item">
+                <span class="label">Annual Usage</span>
+                <span class="value">{{projectRequestDetails.annualUsage}}</span>
+            </div>
+            <div class="details-item">
+                <span class="label">Annual Cost</span>
+                <span class="value">{{projectRequestDetails.annualCost}}</span>
+            </div>
+            <div class="details-item">
+                <span class="label">Address</span>
+                <span class="value">{{projectRequestDetails.address}}</span>
+            </div>
+
+            <br>
+
+            <div class="details-item">
+                <a href="/operations/createproject/{{projectRequestDetails._id}}" class="btn">Create Project</a>
+                <span class="value"><a href="/operations" class="btn">Back to Dashboard</a></span>
+            </div>
+            
+            
+        </div>
+    </div>
+</body>

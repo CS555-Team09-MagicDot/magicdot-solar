@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const inventoryData = require("../data/inventory");
 const projectRequestData = require("../data/projectRequest");
+const projectData = require("../data/project");
 
 router.route("/").get(async (req, res) => {
   if (!req.session.user || req.session.user.role !== "operational manager") {
@@ -90,6 +91,27 @@ router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
       title: "Project Request Details",
       projectRequestDetails: projectRequestDetails // pass project details data to the view
     });
+  } catch (error) {
+    return res.status(400).render("error", {error: error});
+  }
+});
+
+router.route("/createproject/:projectReqId").get(async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "operational manager") {
+    return res.redirect("/");
+  }
+  try {
+    
+    const projectRequestDetails = await projectRequestData.getAllProjectRequestDetails(req.params.projectReqId);
+    // console.log(projectRequestDetails);
+    const createProjectInfo = await projectData.createProjectUsingRequest(projectRequestDetails, req.session.user._id);
+    // console.log(projectRequestDetails);
+
+    // Chnaging Project Request Status
+    const updatedProjectRequest = await projectRequestData.closeProjectRequest(req.params.projectReqId);
+
+    return res.redirect("/operations");
+
   } catch (error) {
     return res.status(400).render("error", {error: error});
   }

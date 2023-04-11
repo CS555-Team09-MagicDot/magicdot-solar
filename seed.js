@@ -96,13 +96,6 @@ async function main() {
 		console.log(e);
 	}
 
-	try {
-		const newProject = await projectsData.createProject("Project-23456", "description", "03/12/2020", "04/10/2021", "ongoing", "approved", "xyz person", "Aplha", "abc", "qwe");
-		console.log(newProject);
-	} catch (e) {
-		console.log(e);
-	}
-
 	// try {
 	// 	const update = await inventoryData.updateInventoryQuantity("6430e479e2e28496a79dba70", "500");
 	// 	console.log(update);

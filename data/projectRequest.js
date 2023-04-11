@@ -70,8 +70,19 @@ const getAllProjectRequestDetails = async (id) => {
 	const inquiryDetails = await salesInquiryData.getInquiryById(getProjectReq.inquiryId);
 	getProjectReq.customerName = inquiryDetails.customerName;
 	getProjectReq.subject = inquiryDetails.subject;
+	getProjectReq.customerId = inquiryDetails.customerId;
+	getProjectReq.salesRepresentative = inquiryDetails.salesRepresentativeAssigned;
 	
 	return getProjectReq;
+};
+
+const closeProjectRequest = async (id) => {
+	// id = validators.validateId(id, "project Request");
+	const projectRequestCollection = await projectRequest()
+	const closeProjectRequest = await projectRequestCollection.updateOne({ _id: new ObjectId(id) }, { $set: { status: false } });
+	if (closeProjectRequest.modifiedCount === 0) throw { status: 500, message: "Could not close project request" };
+	const updatedProjectRequest = await getProjectRequestById(id);
+	return updatedProjectRequest;
 };
 
 module.exports = {
@@ -79,5 +90,6 @@ module.exports = {
     getProjectRequestById,
 	getAllProjectRequestList,
 	getAllProjectRequestDetailsList,
-	getAllProjectRequestDetails
+	getAllProjectRequestDetails,
+	closeProjectRequest
 }
