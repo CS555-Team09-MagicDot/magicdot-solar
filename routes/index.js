@@ -5,6 +5,7 @@ const salesRoutes = require("./sales");
 const inquiryRoutes = require("./salesInquiry");
 const operationsDashboard = require("./operations");
 const customerRoutes = require("./customer");
+const onsiteRoutes = require("./onsite");
 const path = require("path");
 
 const constructorMethod = (app) => {
@@ -15,6 +16,7 @@ const constructorMethod = (app) => {
 	app.use("/inquiry", inquiryRoutes);
 	app.use("/operations", operationsDashboard);
 	app.use("/customer", customerRoutes);
+	app.use("/onsite", onsiteRoutes);
 	app.use("/about", (req, res) => {
 		res.sendFile(path.resolve("static/about.html"));
 	});
