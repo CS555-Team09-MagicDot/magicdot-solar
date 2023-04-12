@@ -50,6 +50,13 @@ async function main() {
 	}
 
 	try {
+		const onsite = await usersData.createUser("Onsite", "Account", "onsite team", "onsite@gmail.com", "7698654321", "Test@123");
+		console.log(onsite);
+	} catch (e) {
+		console.log(e);
+	}
+
+	try {
 		const itAdmin1 = await usersData.createUser("ItAdmin", "Account", "it admin", "it@gmail.com", "7698654321", "Test@123");
 		console.log(itAdmin1);
 	} catch (e) {
