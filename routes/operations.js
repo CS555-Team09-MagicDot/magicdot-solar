@@ -28,36 +28,36 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/inventory").get(async (req, res) => {
-  if (!req.session.user || req.session.user.role !== "operational manager") {
-    return res.redirect("/");
-  }
-  try {
-    const inventory = await inventoryData.getAllInventoryList();
+	if (!req.session.user || req.session.user.role !== "operational manager") {
+		return res.redirect("/");
+	}
+	try {
+		const inventory = await inventoryData.getAllInventoryList();
 
-    return res.status(200).render("inventory", {
-      title: "Operations Dashboard - Inventory",
-      inventory: inventory, // pass inventory data to the view
-    });
-  } catch (error) {
-    return res.status(400).render("error", {error: error});
-  }
+		return res.status(200).render("inventory", {
+			title: "Operations Dashboard - Inventory",
+			inventory: inventory, // pass inventory data to the view
+		});
+	} catch (error) {
+		return res.status(400).render("error", { error: error });
+	}
 });
 
 router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
-  if (!req.session.user || req.session.user.role !== "operational manager") {
-    return res.redirect("/");
-  }
-  try {
-    // console.log(req.params.projectReqId)
-    const projectRequestDetails = await projectRequestData.getAllProjectRequestDetails(req.params.projectReqId);
+	if (!req.session.user || req.session.user.role !== "operational manager") {
+		return res.redirect("/");
+	}
+	try {
+		// console.log(req.params.projectReqId)
+		const projectRequestDetails = await projectRequestData.getAllProjectRequestDetails(req.params.projectReqId);
 
-    return res.status(200).render("projectRequestDetails", {
-      title: "Project Request Details",
-      projectRequestDetails: projectRequestDetails // pass project details data to the view
-    });
-  } catch (error) {
-    return res.status(400).render("error", {error: error});
-  }
+		return res.status(200).render("projectRequestDetails", {
+			title: "Project Request Details",
+			projectRequestDetails: projectRequestDetails, // pass project details data to the view
+		});
+	} catch (error) {
+		return res.status(400).render("error", { error: error });
+	}
 });
 
 router.route("/createproject/:projectReqId").get(async (req, res) => {
@@ -71,9 +71,8 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
     const createProjectInfo = await projectData.createProjectUsingRequest(projectRequestDetails, req.session.user._id);
     // console.log(createProjectInfo);
 
-    // Chnaging Project Request Status
-    const updatedProjectRequest = await projectRequestData.closeProjectRequest(req.params.projectReqId);
-
+		// Chnaging Project Request Status
+		const updatedProjectRequest = await projectRequestData.closeProjectRequest(req.params.projectReqId);
     // Add ProjectId to customer collection
     const updatedCustomer = await usersData.addProjectToUser(createProjectInfo._id, projectRequestDetails.customerId)
 
