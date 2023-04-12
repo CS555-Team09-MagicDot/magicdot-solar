@@ -30,10 +30,24 @@ git clone https://github.com/CS555-Team09-MagicDot/magicdot-solar.git
 npm install
 ```
 
+#### Populate the database
+
+```shell
+npm run seed
+```
+
 #### Start the server
 
 ```shell
 npm start
+```
+
+### Run tests:
+
+To run the tests use the following command:
+
+```shell
+npm test
 ```
 
 **Open your browser and navigate to** http://localhost:3000

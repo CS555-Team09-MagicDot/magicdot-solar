@@ -71,11 +71,19 @@
 				<div class="w-full col-span-1 relative lg:h-[80vh] h-[50vh] p-4 border rounded-lg bg-white overflow-auto">
 					<h1 class="text-3xl font-medium text-teal-600 p-2">Options</h1>
 					<hr />
-					<div class="mt-4">
-						<a href="/sales/requirementsubmission/{{inquiryDetails._id}}">
-							<button class="bg-emerald-200 text-emerald-800 py-4 px-2 rounded-lg hover:bg-emerald-300 active:bg-emerald-700 active:text-white">Submit Customer Requirements</button>
-						</a>
-					</div>
+					{{#if inquiryStatus}}
+						<div class="mt-4">
+							<a href="/sales/requirementsubmission/{{inquiryDetails._id}}">
+								<button class="bg-emerald-200 text-emerald-800 py-4 px-2 rounded-lg hover:bg-emerald-300 active:bg-emerald-700 active:text-white">Submit Customer Requirements</button>
+							</a>
+						</div>
+					{{else}}
+						<div class="mt-4">
+							<a href="#">
+								<button class="bg-emerald-100 bg-opacity-70 text-emerald-800 py-4 px-2 rounded-lg">Customer Requirements Submitted</button>
+							</a>
+						</div>
+					{{/if}}
 				</div>
 			</div>
 		</main>

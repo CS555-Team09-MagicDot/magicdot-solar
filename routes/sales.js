@@ -35,7 +35,7 @@ router.route("/inquirydetails/:inquiryId").get(async (req, res) => {
 		const inquiryDetails = await salesInquiryData.getInquiryById(req.params.inquiryId);
 		const userDetails = await usersData.getUserById(inquiryDetails.customerId);
 		console.log(userDetails);
-		return res.status(200).render("inquiryDetails", { title: "Magicdot - Inquiry Details", inquiryDetails: inquiryDetails, userDetails: userDetails, inquiryId: req.params.inquiryId });
+		return res.status(200).render("inquiryDetails", { title: "Magicdot - Inquiry Details", inquiryDetails: inquiryDetails, userDetails: userDetails, inquiryId: req.params.inquiryId, inquiryStatus: inquiryDetails.status });
 	} catch (error) {
 		return res.status(400).render("error", { error: error });
 	}
@@ -55,27 +55,31 @@ router.route("/generateaccount/:id").get(async (req, res) => {
 	}
 });
 
-router.route("/requirementsubmission/:inquiryId")
+router
+	.route("/requirementsubmission/:inquiryId")
 	.get(async (req, res) => {
 		try {
 			if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
 
 			return res.status(200).render("salesRequirementSubmission", {
 				title: "Submit Requirements",
-				inquiryId: req.params.inquiryId
+				inquiryId: req.params.inquiryId,
 			});
 		} catch (e) {
 			return res.status(400).render("error", { error: e });
 		}
 	})
 	.post(async (req, res) => {
-		if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
+		try {
+			if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
 
-		var projectReq = await projectRequestData.createProjectRequest(req.params.inquiryId, req.body.totalCoverageArea, req.body.previousYearAnnualUsage , req.body.previousYearAnnualEnergyCost , req.body.address);
-		var closeInquiry = await salesInquiryData.closeSalesInquiry(req.params.inquiryId);
+			var projectReq = await projectRequestData.createProjectRequest(req.params.inquiryId, req.body.totalCoverageArea, req.body.previousYearAnnualUsage, req.body.previousYearAnnualEnergyCost, req.body.address);
+			var closeInquiry = await salesInquiryData.closeSalesInquiry(req.params.inquiryId);
 
-		return res.redirect("/sales");
+			return res.redirect("/sales");
+		} catch (e) {
+			return res.status(e.status).render("error", { error: e.message });
+		}
 	});
-
 
 module.exports = router;
