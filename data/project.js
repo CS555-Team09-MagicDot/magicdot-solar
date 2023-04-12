@@ -115,7 +115,7 @@ const createProjectUsingRequest = async (reqObj, operationalManagerId) => {
 
 	const newProjectInfo = await projectsCollection.insertOne(newProject);
 	if (!newProjectInfo.acknowledged || !newProjectInfo.insertedId) throw { status: 500, message: "Could not create Project" };
-
+  
 	const projectCreated = getProjectById(newProjectInfo.insertedId.toString());
 	return projectCreated;
 };
