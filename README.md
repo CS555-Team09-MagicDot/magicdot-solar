@@ -39,7 +39,7 @@ npm run seed
 **Test accounts:** (Only valid if you run seed)
 
 - Customer:
-  - Email: customer@gmail.com
+  - Email: customer2@gmail.com
   - Password: Test@123
 - Sales Representative:
   - Email: sales@gmail.com
