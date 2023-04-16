@@ -7,16 +7,6 @@
 				</div>
 			</a>
 			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
-			<a href="/sales">
-				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-					<img src="public/img/dashboard.svg" style="width:20px" />
-				</div>
-			</a>
-			<a href="/sales">
-				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-					<img src="public/img/inventory.svg" style="width:20px" />
-				</div>
-			</a>
 			<a href="/logout">
 				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
 					<img src="public/img/logout.svg" style="width:20px" />
@@ -47,8 +37,8 @@
 				</div>
 			</div>
 
-			<div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
-				<div class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white">
+			<div class="p-4 grid md:grid-cols-4 grid-cols-1 gap-4">
+				<div class="w-full md:col-span-2 relative lg:h-[80vh] h-[50vh] p-4 border rounded-lg bg-white overflow-y-auto">
 					<h1 class="text-3xl font-medium text-teal-600 p-2">New Inquiries</h1>
 					<ul>
 						{{#each newInquiryList}}
@@ -60,17 +50,17 @@
 									<p class="text-gray-800 font-bold">{{subject}}</p>
 									<p class="text-gray-400 text-sm">{{message}}</p>
 								</div>
-								<p class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/sales/generateaccount/{{_id}}"><button class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg hover:bg-emerald-700 active:bg-emerald-500">Claim</button></a></p>
+								<span class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/sales/generateaccount/{{_id}}"><button class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg hover:bg-emerald-700 active:bg-emerald-500">Claim</button></a></span>
 							</li>
 						{{/each}}
 					</ul>
 
 				</div>
-				<div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
+				<div class="w-full col-span-2 relative lg:h-[80vh] h-[50vh] p-4 border rounded-lg bg-white overflow-y-auto">
 					<h1 class="text-3xl font-medium text-teal-600 p-2">My Ongoing Inquiries</h1>
 					<ul>
 						{{#each ongoingInquiryList}}
-							<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer">
+							<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center">
 								<div class="bg-yellow-100 rounded-lg p-5">
 									<img src="../public/img/solar-panel.svg" class="text-purple-800 w-[40px]" />
 								</div>

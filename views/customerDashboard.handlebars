@@ -1,82 +1,124 @@
-<html>
+<div class="flex">
+	<div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
+		<div class="flex flex-col items-center">
+			<a href="/customer">
+				<div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
+					<img src="public/img/logo_white.svg" style="width:20px" />
+				</div>
+			</a>
+			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
+			<a href="/customer/documents">
+				{{#if user.isSigned}}
+					<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+						<img src="/public/img/agreement-document.svg" style="width:20px" />
+					</div>
+				{{else}}
+					<div class="bg-emerald-200 hover:bg-emerald-300 cursor-pointer my-4 p-3 rounded-lg inline-block">
+						<img src="/public/img/agreement-document.svg" style="width:20px" />
+					</div>
+				{{/if}}
+			</a>
+			{{#if user.isSigned}}
+				<a href="/customer/payments">
+					<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+						<img src="/public/img/payment.svg" style="width:20px" />
+					</div>
+				</a>
+			{{/if}}
+			<a href="/logout">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/logout.svg" style="width:20px" />
+				</div>
+			</a>
+		</div>
+	</div>
+	<main class="ml-20 w-full">
+		<main class="bg-gray-100 min-h-screen">
+			<div class="grid lg:grid-cols-3 gap-4 p-4">
+				<div class="bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4 font-medium">
+						<span class="text-2xl">Hello, <span class="text-emerald-700">{{user.name}}</span></span>
+						<p>{{greeting}}</p>
+					</div>
+				</div>
+				<div class="col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">{{salesRepName}}</p>
+						<p class="text-gray-600">Sales Representative</p>
+					</div>
+				</div>
+				<div class="col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">{{salesRepPhone}}</p>
+						<p class="text-gray-600">Sales Representative Phone</p>
+					</div>
+				</div>
+			</div>
 
-<head>
-  <title>Customer Dashboard</title>
-  <!-- include Tailwind CSS -->
-  <link rel="stylesheet" href="../public/css/tailwind.css">
-</head>
-
-<body class="bg-white h-screen">
-  <div class="container mx-auto px-4 py-8 space-x-4 text-center">
-    <h1 class="text-3xl font-bold mb-4">Welcome, {{user.name}}!</h1>
-    <p class="text-lg mb-4">You can manage your account and documents from here.</p>
-
-    <!-- add the "Documents" button using Tailwind CSS -->
-
-    <a href="/customer/documents" class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Documents</a>
-    <a href="/customer/chat" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Chat</a>
-    {{#if user.isSigned}}
-    <a href="/customer/payments" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Payment Option</a>
-    {{/if}}
-    <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</a>
-  </div>
-
-  <h2 class="text-3xl text-center font-normal leading-normal mt-0 mb-2 text-green-500">Ongoing Projects</h2>
-    <table class ="table table-striped border dark:border-neutral-500" style="margin-left: auto; margin-right: auto;">
-        <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
-            <tr>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Name</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Start Date</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Sales Team</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Operational Manager</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Construction Crew</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {{#each ongoingProjects}}
-
-            <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{projectName}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{startDate}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{salesRep}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{operationsManager}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{constructionCrew}}</td>
-            </tr>
-
-            {{/each}}
-        </tbody>
-    </table>
-
-    <br>
-
-    <h2 class="text-3xl text-center font-normal leading-normal mt-0 mb-2 text-red-500">Finished Projects</h2>
-    <table class ="table table-striped border dark:border-neutral-500" style="margin-left: auto; margin-right: auto;">
-        <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
-            <tr>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Name</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Start Date</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Sales Team</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Operational Manager</th>
-                <th class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">Construction Crew</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {{#each finishedProjects}}
-
-            <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{projectName}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{startDate}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{salesRep}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{operationsManager}}</td>
-                <td class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">{{constructionCrew}}</td>
-            </tr>
-
-            {{/each}}
-        </tbody>
-    </table>
-
-</body>
-
-</html>
+			<div class="p-4 grid md:grid-cols-5 grid-cols-1 gap-4">
+				<div class="w-full md:col-span-4 relative lg:h-[80vh] h-[50vh] p-4 border rounded-lg bg-white">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">Chat with sales representative</h1>
+					<hr />
+					<div class="chatWindow mt-2">
+						<div class="h-5/6 rounded-t-lg py-2 overflow-y-auto">
+							<ul>
+								<li>
+									<div class="chat-message py-2 px-1">
+										<div class="flex items-end justify-end">
+											<div class="flex flex-col space-y-2 max-w-xl mx-2 order-1 items-end">
+												<div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-emerald-600 text-white"><strong>Subject:</strong><br />{{inquiryDetails.subject}}<br /><strong>Inquiry:</strong><br />{{inquiryDetails.message}}</span></div>
+											</div>
+										</div>
+									</div>
+								</li>
+								{{#each messages}}
+									{{#if me}}
+										<li>
+											<div class="chat-message py-2 px-1">
+												<div class="flex items-end justify-end">
+													<div class="flex flex-col space-y-2 max-w-xl mx-2 order-1 items-end">
+														<span class="pr-2 text-xs font-light">{{date}}</span>
+														<div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-emerald-600 text-white">{{message}}</span></div>
+													</div>
+												</div>
+											</div>
+										</li>
+									{{else}}
+										<li>
+											<div class="chat-message py-2 px-1 w-full">
+												<div class="flex items-end">
+													<div class="flex flex-col space-y-2 max-w-xl mx-2 order-2 items-start">
+														<span class="pl-2 text-xs font-light">{{date}}</span>
+														<div><span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-slate-300 text-black">{{message}}</span></div>
+													</div>
+												</div>
+											</div>
+										</li>
+									{{/if}}
+								{{/each}}
+							</ul>
+						</div>
+						<div class="h-fit rounded-b-lg pb-0.5">
+							<form action="/customer/postmessage/{{inquiryDetails._id}}" method="POST" encType="multipart/form-data">
+								<div class="flex flex-row justify-between">
+									<input type="text" name="message" class="w-full px-4 py-2 mt-2 mx-2 mr-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" />
+									<button type="submit" class="bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-500 text-white rounded-lg px-4 py-2 mt-2 mx-2 mr-2">Send</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="w-full col-span-1 relative lg:h-[80vh] h-[50vh] p-4 border rounded-lg bg-white overflow-auto">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">Project Progress</h1>
+					<hr />
+					<div class="mt-4 transition duration-150 hover:scale-105">
+						{{!-- <div class="mt-4 transition duration-150 hover:scale-105">
+							<a href="/customer/payments">
+								<button class="bg-emerald-200 text-emerald-800 py-4 px-2 rounded-lg hover:bg-emerald-300 active:bg-emerald-700 active:text-white w-full">Payment options</button>
+							</a>
+						</div> --}}
+				</div>
+			</div>
+		</main>
+	</main>
+</div>

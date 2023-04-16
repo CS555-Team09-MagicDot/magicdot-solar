@@ -36,6 +36,21 @@ npm install
 npm run seed
 ```
 
+**Test accounts:** (Only valid if you run seed)
+
+- Customer:
+  - Email: customer@gmail.com
+  - Password: Test@123
+- Sales Representative:
+  - Email: sales@gmail.com
+  - Password: Test@123
+- Operational Manager:
+  - Email: operations@gmail.com
+  - Password: Test@123
+- Onsite Team Member:
+  - Email: onsite@gmail.com
+  - Password: Test@123
+
 #### Start the server
 
 ```shell

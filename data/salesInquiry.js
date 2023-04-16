@@ -140,6 +140,43 @@ const getInquiry = async (filters) => {
 	return getInquiries;
 };
 
+const addNewMessage = async (inquiryId, userId, message, files) => {
+	inquiryId = validators.validateId(inquiryId, "Sales Inquiry ID");
+	userId = validators.validateId(userId, "User ID");
+	message = validators.validateString(message, "Message");
+	let imageArray = new Array();
+	if (files) {
+		const { images } = files;
+		if (Array.isArray(images)) {
+			imageArray = images.map((image) => `data:${image.mimetype};base64,${image.data.toString("base64")}`);
+		} else {
+			imageArray.push(`data:${images.mimetype};base64,${images.data.toString("base64")}`);
+		}
+	}
+
+	const newMessage = {
+		_id: new ObjectId(),
+		date: new Date().toLocaleString("en-US"),
+		userId: userId,
+		message: message,
+		images: imageArray,
+	};
+	console.log(`Pushing message object:\n${newMessage}`);
+	const salesInquiryCollection = await salesInquiry();
+	const updateInquiry = await salesInquiryCollection.updateOne({ _id: new ObjectId(inquiryId) }, { $push: { messages: newMessage } });
+	if (!updateInquiry.acknowledged || !updateInquiry.matchedCount) throw { status: 500, message: "Could not add new message" };
+	return true;
+};
+
+const getInquiryMessages = async (inquiryId) => {
+	inquiryId = validators.validateId(inquiryId, "Sales Inquiry ID");
+	const salesInquiryCollection = await salesInquiry();
+	const getInquiry = await salesInquiryCollection.findOne({ _id: new ObjectId(inquiryId) });
+	if (!getInquiry || getInquiry === null) throw { status: 404, message: "Inquiry not found" };
+	const messages = getInquiry.messages;
+	return messages;
+};
+
 const closeSalesInquiry = async (id) => {
 	id = validators.validateId(id, "inquiry");
 	const salesInquiryCollection = await salesInquiry();
@@ -160,5 +197,7 @@ module.exports = {
 	getClosedSalesInquiryList,
 	getInquiryById,
 	getInquiry,
+	addNewMessage,
+	getInquiryMessages,
 	closeSalesInquiry,
 };
