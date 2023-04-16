@@ -97,7 +97,6 @@ const validateMessage = (message) => {
 };
 
 const validatePassword = (password) => {
-	console.log("Validator Password-" + password);
 	const oneUpper = /[A-Z]/;
 	const oneLower = /[a-z]/;
 	const oneNumber = /[0-9]/;

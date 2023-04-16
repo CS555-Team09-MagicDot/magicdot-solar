@@ -105,38 +105,36 @@ const addSalesInquiryIdToCustomer = async (customerId, inquiryId) => {
 	return customerInquiry;
 };
 
-const addProjectToUser =  async (projectId, userId) => {
+const addProjectToUser = async (projectId, userId) => {
+	const userInfo = await getUserById(userId);
+	var arr = userInfo.ongoingProjects;
+	arr.push(projectId);
 
-    const userInfo = await getUserById(userId);
-    var arr = userInfo.ongoingProjects;
-    arr.push(projectId);
+	var query = { _id: new ObjectId(userId) };
+	newValue = { $set: { ongoingProjects: arr } };
 
-    var query = { _id: new ObjectId(userId) };
-    newValue = {$set: {ongoingProjects: arr}};
+	const usersCollection = await users();
+	const updateInfo = await usersCollection.updateOne(query, newValue);
 
-    const usersCollection = await users();
-    const updateInfo = await usersCollection.updateOne(query, newValue);
+	// console.log(updateInfo);
+	return await getUserById(userId);
+};
 
-    // console.log(updateInfo);
-    return await getUserById(userId);
-}
-
-const getUsersOnGoingProjects =  async (id) => {
-    //console.log(id);
-    const userInfo = await getUserById(id);
-    // console.log(userInfo.ongoingProjects);
+const getUsersOnGoingProjects = async (id) => {
+	//console.log(id);
+	const userInfo = await getUserById(id);
+	// console.log(userInfo.ongoingProjects);
 
 	let list = [];
-	for (let i = 0; i < userInfo.ongoingProjects.length; i++)
-	{
+	for (let i = 0; i < userInfo.ongoingProjects.length; i++) {
 		let obj = userInfo.ongoingProjects[i];
-		// console.log(obj);
+		console.log(obj);
 		const projectDetails = await projectData.getProjectById(obj);
 		list.push(projectDetails);
 	}
-	
+
 	return list;
-}
+};
 
 module.exports = {
 	createUser,
@@ -146,5 +144,5 @@ module.exports = {
 	getUserByEmail,
 	addSalesInquiryIdToCustomer,
 	addProjectToUser,
-	getUsersOnGoingProjects
+	getUsersOnGoingProjects,
 };

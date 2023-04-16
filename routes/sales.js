@@ -4,6 +4,7 @@ const salesInquiryData = require("../data/salesInquiry");
 const usersData = require("../data/users");
 const sendMailData = require("../data/sendMail");
 const projectRequestData = require("../data/projectRequest");
+const validators = require("../validators");
 
 router.route("/").get(async (req, res) => {
 	try {
@@ -13,6 +14,28 @@ router.route("/").get(async (req, res) => {
 		var newInquiryList = await salesInquiryData.getNewSalesInquiryList();
 		var ongoingInquiryList = await salesInquiryData.getOngoingInquiryList(req.session.user._id);
 		let totalInquiriesAmount = await salesInquiryData.totalInquiriesAmount();
+
+		if (newInquiryList.length > 0) {
+			for (let inquiry of newInquiryList) {
+				if (inquiry.subject.split(" ").length > 5) {
+					inquiry.subject = inquiry.subject.split(" ").slice(0, 5).join(" ") + "...";
+				}
+				if (inquiry.message.split(" ").length > 10) {
+					inquiry.message = inquiry.message.split(" ").slice(0, 10).join(" ") + "...";
+				}
+			}
+		}
+
+		if (ongoingInquiryList.length > 0) {
+			for (let inquiry of ongoingInquiryList) {
+				if (inquiry.subject.split(" ").length > 5) {
+					inquiry.subject = inquiry.subject.split(" ").slice(0, 5).join(" ") + "...";
+				}
+				if (inquiry.message.split(" ").length > 10) {
+					inquiry.message = inquiry.message.split(" ").slice(0, 10).join(" ") + "...";
+				}
+			}
+		}
 
 		return res.status(200).render("salesDashboard", {
 			newInquiryList: newInquiryList,
@@ -27,19 +50,40 @@ router.route("/").get(async (req, res) => {
 	}
 });
 
-router.route("/inquirydetails/:inquiryId").get(async (req, res) => {
-	try {
-		if (!req.session.user || req.session.user.role !== "sales representative") {
-			return res.status(200).redirect("/");
+router
+	.route("/inquirydetails/:inquiryId")
+	.get(async (req, res) => {
+		try {
+			if (!req.session.user || req.session.user.role !== "sales representative") {
+				return res.status(200).redirect("/");
+			}
+			const inquiryDetails = await salesInquiryData.getInquiryById(req.params.inquiryId);
+			const userDetails = await usersData.getUserById(inquiryDetails.customerId);
+			const messages = await salesInquiryData.getInquiryMessages(req.params.inquiryId);
+			for (let message of messages) {
+				if (message.userId === req.session.user._id) {
+					message.me = true;
+				} else {
+					message.me = false;
+				}
+			}
+			console.log(userDetails);
+			return res.status(200).render("inquiryDetails", { title: "Magicdot - Inquiry Details", inquiryDetails: inquiryDetails, userDetails: userDetails, inquiryId: req.params.inquiryId, inquiryStatus: inquiryDetails.status, messages: messages });
+		} catch (error) {
+			return res.status(400).render("error", { error: error });
 		}
-		const inquiryDetails = await salesInquiryData.getInquiryById(req.params.inquiryId);
-		const userDetails = await usersData.getUserById(inquiryDetails.customerId);
-		console.log(userDetails);
-		return res.status(200).render("inquiryDetails", { title: "Magicdot - Inquiry Details", inquiryDetails: inquiryDetails, userDetails: userDetails, inquiryId: req.params.inquiryId });
-	} catch (error) {
-		return res.status(400).render("error", { error: error });
-	}
-});
+	})
+	.post(async (req, res) => {
+		try {
+			if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
+			req.params.inquiryId = validators.validateId(req.params.inquiryId, "Inquiry Id");
+			req.body.message = validators.validateString(req.body.message, "Message");
+			const postMessage = await salesInquiryData.addNewMessage(req.params.inquiryId, req.session.user._id, req.body.message, req.files);
+			return res.status(200).redirect("/sales/inquirydetails/" + req.params.inquiryId);
+		} catch (e) {
+			return res.status(e.status).render("error", { error: e.message });
+		}
+	});
 
 router.route("/generateaccount/:id").get(async (req, res) => {
 	try {
@@ -55,27 +99,31 @@ router.route("/generateaccount/:id").get(async (req, res) => {
 	}
 });
 
-router.route("/requirementsubmission/:inquiryId")
+router
+	.route("/requirementsubmission/:inquiryId")
 	.get(async (req, res) => {
 		try {
 			if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
 
 			return res.status(200).render("salesRequirementSubmission", {
 				title: "Submit Requirements",
-				inquiryId: req.params.inquiryId
+				inquiryId: req.params.inquiryId,
 			});
 		} catch (e) {
 			return res.status(400).render("error", { error: e });
 		}
 	})
 	.post(async (req, res) => {
-		if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
+		try {
+			if (!req.session.user || req.session.user.role !== "sales representative") return res.status(200).redirect("/");
 
-		var projectReq = await projectRequestData.createProjectRequest(req.params.inquiryId, req.body.totalCoverageArea, req.body.previousYearAnnualUsage , req.body.previousYearAnnualEnergyCost , req.body.address);
-		var closeInquiry = await salesInquiryData.closeSalesInquiry(req.params.inquiryId);
+			var projectReq = await projectRequestData.createProjectRequest(req.params.inquiryId, req.body.totalCoverageArea, req.body.previousYearAnnualUsage, req.body.previousYearAnnualEnergyCost, req.body.address);
+			var closeInquiry = await salesInquiryData.closeSalesInquiry(req.params.inquiryId);
 
-		return res.redirect("/sales");
+			return res.redirect("/sales");
+		} catch (e) {
+			return res.status(e.status).render("error", { error: e.message });
+		}
 	});
-
 
 module.exports = router;

@@ -26,6 +26,11 @@ app.use(
 
 app.use(fileUpload());
 
+app.use("*", (req, res, next) => {
+	console.log(`Method: ${req.method} | URL: ${req.originalUrl}`);
+	next();
+});
+
 configRoutes(app);
 
 app.listen(3000, () => {

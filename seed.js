@@ -3,6 +3,26 @@ const salesInquiry = require("./data/salesInquiry");
 const usersData = require("./data/users");
 const projectsData = require("./data/project");
 const inventoryData = require("./data/inventory");
+const casual = require("casual");
+
+// generate 50 random inquiries with first name, last name, email, phone, subject and message
+casual.define("user", function () {
+	return {
+		firstName: casual.first_name,
+		lastName: casual.last_name,
+		email: "",
+		phone: casual.numerify("##########"),
+		subject: casual.title,
+		message: casual.text,
+	};
+});
+
+let userArray = new Array();
+for (let i = 0; i < 20; i++) {
+	const user = casual.user;
+	user.email = `${user.firstName.toLowerCase()}.${user.lastName.toLowerCase()}@gmail.com`;
+	userArray.push(user);
+}
 
 let sales1 = null;
 let sales2 = null;
@@ -13,6 +33,15 @@ async function main() {
 	const db = await connection.dbConnection();
 
 	await db.dropDatabase();
+
+	try {
+		for (let i = 0; i < userArray.length; i++) {
+			const inquiry = await salesInquiry.newInquiry(userArray[i].firstName, userArray[i].lastName, userArray[i].email, userArray[i].phone, userArray[i].subject, userArray[i].message);
+			console.log(inquiry);
+		}
+	} catch (error) {
+		console.log(error);
+	}
 
 	try {
 		const inquiry1 = await salesInquiry.newInquiry("Hem", "Patel", "hempatel1234@gmail.com", "9871361803", "Solar Home Rooftop", "I want to install solar system");
