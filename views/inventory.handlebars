@@ -1,7 +1,5 @@
 <div class="flex">
-  <div
-    class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between"
-  >
+  <div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
     <div class="flex flex-col items-center justify-between">
       <div>
         <a href="/operations">
@@ -11,25 +9,19 @@
         </a>
         <span class="border-b-[1px] border-gray-200 w-full p-2"></span>
         <a href="/operations">
-          <div
-            class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-          >
+          <div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
             <img src="../public/img/dashboard.svg" style="width:20px" />
           </div>
         </a>
         <a href="/operations/inventory">
-          <div
-            class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-          >
+          <div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
             <img src="../public/img/inventory.svg" style="width:20px" />
           </div>
         </a>
       </div>
       <div>
         <a href="/logout">
-          <div
-            class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-          >
+          <div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
             <img src="../public/img/logout.svg" style="width:20px" />
           </div>
         </a>
@@ -53,29 +45,19 @@
 
           <tbody>
             {{#each inventory}}
-              <tr class="hover:bg-gray-100">
-                <td class="p-4">{{this.name}}</td>
-                <td class="p-4">
-                  <span id="quantity{{this.id}}">{{this.quantity}}</span>
-                  <input
-                    type="number"
-                    name="quantity"
-                    id="editQuantity{{this.id}}"
-                    class="hidden"
-                  />
-                </td>
-                <td class="p-4">
-                  <button
-                    class="bg-teal-600 text-white px-4 py-2 rounded-lg mr-2"
-                    onclick="editQuantity({{this.id}})"
-                  >Edit</button>
-                  <button
-                    class="bg-red-600 text-white px-4 py-2 rounded-lg hidden"
-                    onclick="saveQuantity({{this.id}})"
-                    id="saveBtn{{this.id}}"
-                  >Save</button>
-                </td>
-              </tr>
+            <tr class="hover:bg-gray-100">
+              <td class="p-4">{{this.name}}</td>
+              <td class="p-4">
+                <span id="quantity{{this.id}}">{{this.quantity}}</span>
+                <input type="number" name="quantity" id="editQuantity{{this.id}}" class="hidden" />
+              </td>
+              <td class="p-4">
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-lg mr-2"
+                  onclick="editQuantity('{{this.id}}')">Edit</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded-lg hidden" onclick="saveQuantity('{{this.id}}')"
+                  id="saveBtn{{this.id}}">Save</button>
+              </td>
+            </tr>
             {{/each}}
           </tbody>
         </table>
@@ -86,13 +68,22 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  function editQuantity(id) { console.log('editQuantity called'); $('#quantity'
-  + id).addClass('hidden'); $('#editQuantity' + id).removeClass('hidden');
-  $('#saveBtn' + id).removeClass('hidden'); } function saveQuantity(id) {
-  console.log('saveQuantity called'); var newQuantity = $('#editQuantity' +
-  id).val(); $.ajax({ url: '/update-inventory', method: 'POST', data: { id: id,
-  quantity: newQuantity }, success: function(response) { $('#quantity' +
-  id).text(newQuantity); $('#quantity' + id).removeClass('hidden');
-  $('#editQuantity' + id).addClass('hidden'); $('#saveBtn' +
-  id).addClass('hidden'); } }); }
+  function editQuantity(id) {
+    $('#quantity'+ id).addClass('hidden'); $('#editQuantity' + id).removeClass('hidden');
+    $('#saveBtn' + id).removeClass('hidden');
+  } function saveQuantity(id) {
+    console.log('saveQuantity called'); var newQuantity = $('#editQuantity' +
+      id).val();
+    $.ajax({
+      url: '/operations/inventory', method: 'POST', data: {
+        id: id,
+        quantity: newQuantity
+      }, success: function (response) {
+        $('#quantity' +
+          id).text(newQuantity); $('#quantity' + id).removeClass('hidden');
+        $('#editQuantity' + id).addClass('hidden'); $('#saveBtn' +
+          id).addClass('hidden');
+      }
+    });
+  }
 </script>
