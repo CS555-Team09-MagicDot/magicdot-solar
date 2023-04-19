@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
+const util = require("util");
 const app = express();
 
 const configRoutes = require("./routes");
@@ -27,7 +28,7 @@ app.use(
 app.use(fileUpload());
 
 app.use("*", (req, res, next) => {
-	console.log(`Method: ${req.method} | URL: ${req.originalUrl}`);
+	console.log(`Log: Method: ${req.method} | URL: ${req.originalUrl} | Request Body: ${util.inspect(req.body, true, undefined)}`);
 	next();
 });
 
