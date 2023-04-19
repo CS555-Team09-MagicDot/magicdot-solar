@@ -2,6 +2,7 @@ const collections = require("../config/mongoCollections");
 const salesInquiry = collections.salesInquiry;
 const ObjectId = require("mongodb").ObjectId;
 const validators = require("../validators");
+const util = require("util");
 
 const newInquiry = async (firstName, lastName, email, phoneNumber, subject, message, files) => {
 	firstName = validators.validateName(firstName, "first name");
@@ -45,7 +46,10 @@ const assignSalesRepToInquiry = async (inquiryId, salesRepId) => {
 	inquiryId = validators.validateId(inquiryId, "Sales Inquiry ID");
 	salesRepId = validators.validateId(salesRepId, "Sales Rep ID");
 	const salesInquiryCollection = await salesInquiry();
-	const updateInquiry = await salesInquiryCollection.updateOne({ _id: new ObjectId(inquiryId) }, { $set: { salesRepresentativeAssigned: salesRepId } });
+	const updateInquiry = await salesInquiryCollection.updateOne(
+		{ _id: new ObjectId(inquiryId) },
+		{ $set: { salesRepresentativeAssigned: salesRepId } }
+	);
 	if (!updateInquiry.acknowledged || !updateInquiry.matchedCount) throw { status: 500, message: "Could not assign sales representative" };
 	return true;
 };
@@ -161,7 +165,7 @@ const addNewMessage = async (inquiryId, userId, message, files) => {
 		message: message,
 		images: imageArray,
 	};
-	console.log(`Pushing message object:\n${newMessage}`);
+	console.log(`Pushing message object:\n${util.inspect(newMessage, true, undefined)}`);
 	const salesInquiryCollection = await salesInquiry();
 	const updateInquiry = await salesInquiryCollection.updateOne({ _id: new ObjectId(inquiryId) }, { $push: { messages: newMessage } });
 	if (!updateInquiry.acknowledged || !updateInquiry.matchedCount) throw { status: 500, message: "Could not add new message" };
