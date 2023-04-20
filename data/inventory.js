@@ -5,8 +5,8 @@ const validators = require("../validators");
 
 const createNewInventory = async (name, quantity) => {
 
-	// name = validators.validateName(name, "Inventory name");
-	// quantity = validators.validateName(quantity, "Quantity");
+	name = validators.validateName(name, "Inventory name");
+	quantity = validators.validateName(quantity, "Quantity");
 
 	const newInventory = {
 		name: name,
@@ -28,6 +28,7 @@ const getAllInventoryList = async () => {
 	if (inventoryList === null) return [];
 	for (i in inventoryList) {
 		inventoryList[i]._id = inventoryList[i]._id.toString();
+		inventoryList[i].id = inventoryList[i]._id.toString();
 	}
 	return inventoryList;
 };
