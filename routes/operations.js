@@ -26,7 +26,7 @@ router.route("/").get(async (req, res) => {
       ongoingProjectList: ongoingProjectList,
     });
   } catch (error) {
-    return res.status(400).render("error", { error: error });
+    return res.status(400).render("error", {error: error});
   }
 });
 
@@ -44,7 +44,7 @@ router
         inventory: inventory, // pass inventory data to the view
       });
     } catch (error) {
-      return res.status(400).render("error", { error: error });
+      return res.status(400).render("error", {error: error});
     }
   })
   .post(async (req, res) => {
@@ -60,7 +60,7 @@ router
       );
       return res.status(200).json(quantity);
     } catch (error) {
-      return res.status(400).render("error", { error: error });
+      return res.status(400).render("error", {error: error});
     }
   });
 
@@ -80,7 +80,27 @@ router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
       projectRequestDetails: projectRequestDetails, // pass project details data to the view
     });
   } catch (error) {
-    return res.status(400).render("error", { error: error });
+    return res.status(400).render("error", {error: error});
+  }
+});
+
+router.route("/project/:id").get(async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "operational manager") {
+    return res.redirect("/");
+  }
+  try {
+    // console.log(req.params.projectReqId)
+    // const projectRequestDetails =
+    //   await projectRequestData.getAllProjectRequestDetails(
+    //     req.params.id
+    //   );
+    const projectStatus = 3;
+    return res.status(200).render("projectDetails", {
+      title: "Project Details",
+      projectStatuses: projectStatus,
+    });
+  } catch (error) {
+    return res.status(400).render("error", {error: error});
   }
 });
 
@@ -118,7 +138,7 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
 
     return res.redirect("/operations");
   } catch (error) {
-    return res.status(400).render("error", { error: error });
+    return res.status(400).render("error", {error: error});
   }
 });
 
