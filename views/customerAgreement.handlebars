@@ -5,7 +5,7 @@
     <div class="container mx-auto p-4">
       <h1 class="text-center text-xl font-bold">Customer Agreement</h1>
       {{#if user.isSigned}}
-        <p class="text-center">Dear {{user.name}}, you have already signed the agreement.</p>
+        <p class="text-center">Dear {{user.name}}, you have already signed the agreement on {{user.signedDate}}.</p>
         <div class="bg-gray-100 p-4 mt-4">
           <p><strong>Agreement</strong></p>
           <p>Text of the agreement goes here.</p>
@@ -17,28 +17,69 @@
       </a>
     </div>
       {{else}}
-        <form method="POST" action="/customer/customerAgreement">
-          <div class="bg-gray-100 p-4 mt-4">
-            <p><strong>Agreement</strong></p>
-            <p>Text of the agreement goes here.</p>
-          </div>
-          <input type="hidden" name="email" value="{{user.email}}">
+        <form method="POST" action="/customer/customerAgreement" onsubmit="return validateForm()">
+      <div class="bg-gray-100 p-4 mt-4">
+        <p><strong>Agreement</strong></p>
+        <p>Text of the agreement goes here.</p>
+      </div>
+      <input type="hidden" name="email" value="{{user.email}}">
 
-          <div class="mt-4">
-            <input type="text" name="customerName" class="block w-full border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your name">
-          </div>
-          <div class="mt-4">
-            <label class="inline-flex items-center">
-              <input type="checkbox" name="agree" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2">I agree to the terms of the agreement.</span>
-            </label>
-          </div>
-          <div class="mt-4">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Submit Agreement
-            </button>
-            <a href="/customer/chat" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Chat</a>
-          </div>
-        </form>
+      <div class="mt-4">
+        <input type="text" name="customerName" id="customerName" class="block w-full border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your name">
+        <div id="customerNameError" class="text-red-500 text-sm hidden">Please enter your name</div>
+      </div>
+      <div class="mt-4">
+        <label class="inline-flex items-center">
+          <input type="checkbox" name="agree" id="agree" class="form-checkbox h-5 w-5 text-gray-600"><span class="ml-2">I agree to the terms of the agreement.</span>
+        </label>
+        <div id="agreeError" class="text-red-500 text-sm hidden">Please agree to the terms of the agreement</div>
+      </div>
+     <div class="mt-4" style="display: flex; flex-direction: column;">
+  <label for="datePicker" class="block font-medium text-gray-700">Select a date:</label>
+  <input type="date" id="datePicker" name="datePicker" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+  <div id="dateError" class="text-red-500 text-sm hidden">Please select a date</div>
+    </div>
+      <div class="mt-4">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Submit Agreement
+        </button>
+        <a href="/customer/chat" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Chat</a>
+      </div>
+    </form>
+    <script>
+        function validateForm() {
+            let name = document.getElementById("customerName").value;
+            let date = document.getElementById("datePicker").value;
+            let checkbox = document.getElementById("agree").checked;
+            let nameError = document.getElementById("customerNameError");
+            let dateError = document.getElementById("dateError");
+            let checkboxError = document.getElementById("agreeError");
+            let isValid = true;
+
+            if (name == "") {
+                nameError.classList.remove("hidden");
+                isValid = false;
+            } else {
+                nameError.classList.add("hidden");
+            }
+
+            if (date == "") {
+                dateError.classList.remove("hidden");
+                isValid = false;
+            } else {
+                dateError.classList.add("hidden");
+            }
+
+            if (!checkbox) {
+                checkboxError.classList.remove("hidden");
+                isValid = false;
+            } else {
+                checkboxError.classList.add("hidden");
+            }
+
+            return isValid;
+        }
+    </script>
       {{/if}}
     </div>
     

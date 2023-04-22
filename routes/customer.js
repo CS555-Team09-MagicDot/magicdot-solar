@@ -64,6 +64,7 @@ router.route("/postmessage/:inquiryId").post(async (req, res) => {
 
 router.route("/documents").get(async (req, res) => {
 	try {
+		console.log(req.session.user.signedDate)
 		return res.status(200).render("customerAgreement", {
 			title: "Customer Agreement",
 			user: req.session.user,
@@ -78,8 +79,9 @@ router.route("/customerAgreement").post(async (req, res) => {
 	try {
 		//const user = req.session.user
 		//email = user.email
-
-		const customer = await users.checkUserAgreement(req.body.email);
+		
+		req.body.customerName = validators.validateName(req.body.customerName.replace(/\s+/g, ''), "first name");
+		const customer = await users.checkUserAgreement(req.body.email, req.body.datePicker);
 		// Find the customer by email and update their record
 
 		// If the customer is not found, return a 404 error
