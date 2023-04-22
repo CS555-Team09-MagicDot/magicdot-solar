@@ -29,6 +29,7 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		ongoingProjects: [],
 		finishedProjects: [],
 		isSigned: false,
+		signedDate: null,
 	};
 	const insertUserInfo = await userCollection.insertOne(newUser);
 	if (!insertUserInfo.acknowledged || !insertUserInfo.insertedId) throw { status: 500, message: "Could not create new user" };
@@ -42,6 +43,7 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		phoneNumber: newUserInfo.phoneNumber,
 		password: newUserInfo.password,
 		isSigned: newUserInfo.isSigned,
+		signedDate: newUserInfo.signedDate,
 	};
 	return sendUserInfo;
 };
@@ -81,16 +83,20 @@ const checkUser = async (email, password) => {
 		role: user.role,
 		email: user.email,
 		phoneNumber: user.phoneNumber,
+		isSigned: user.isSigned,
+		signedDate: user.signedDate,
 	};
+	
 	return sendUserInfo;
 };
 
-const checkUserAgreement = async (email) => {
+const checkUserAgreement = async (email, datePicker ) => {
 	const userCollection = await users();
+	
 
 	var myQuery = { email: email };
 
-	var newValues = { $set: { isSigned: true } };
+	var newValues = { $set: { isSigned: true, signedDate: datePicker } };
 	const customer = await userCollection.updateOne(myQuery, newValues);
 	return customer;
 };
