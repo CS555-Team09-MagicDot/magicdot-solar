@@ -5,7 +5,7 @@ const validators = require("../validators");
 
 const createNewInventory = async (name, quantity) => {
 
-	name = validators.validateName(name, "Inventory name");
+	//name = validators.validateName(name, "Inventory name");
 	//quantity = validators.validateName(quantity, "Quantity");
 
 	const newInventory = {

@@ -32,6 +32,7 @@ const newInquiry = async (firstName, lastName, email, phoneNumber, subject, mess
 		initialImages: imageArray,
 		salesRepresentativeAssigned: "",
 		messages: [],
+		isProjectCreated: false
 	};
 
 	const salesInquiryCollection = await salesInquiry();
@@ -198,7 +199,7 @@ const addProjectToInquiry = async (projectId, inquiryId) => {
 	const inquiryInfo = await getInquiryById(inquiryId);
 
 	var query = { _id: new ObjectId(inquiryId) };
-	newValue = { $set: { projectId: projectId } };
+	newValue = { $set: { projectId: projectId, isProjectCreated: true} };
 
 	const salesInquiryCollection = await salesInquiry();
 	const updateInfo = await salesInquiryCollection.updateOne(query, newValue);

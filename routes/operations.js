@@ -76,8 +76,12 @@ router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
         req.params.projectReqId
       );
 
+    // Add ProjectId to customer collection
+    const allOnsiteTeams = await usersData.getUsersByRole("onsite team");
+
     return res.status(200).render("projectRequestDetails", {
       title: "Project Request Details",
+      onSiteTeams: allOnsiteTeams,
       projectRequestDetails: projectRequestDetails, // pass project details data to the view
     });
   } catch (error) {
@@ -125,6 +129,9 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
         req.params.projectReqId
       );
     // console.log(projectRequestDetails);
+
+    if (projectRequestDetails.status == false) throw "Project already created";
+
     const createProjectInfo = await projectData.createProjectUsingRequest(
       projectRequestDetails,
       req.session.user._id
@@ -158,5 +165,25 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
     return res.status(400).render("error", {error: error});
   }
 });
+
+router
+  .route("/addprojecttask/:projectId")
+  .post(async (req, res) => {
+    if (!req.session.user || req.session.user.role !== "operational manager") {
+      return res.redirect("/");
+    }
+    try {
+      const task = req.body.task;
+      console.log(task);
+      const taskAdded = await projectData.addProjectTask(
+        req.params.projectId,
+        task
+      );
+
+      return res.redirect("/operations/project/"+req.params.projectId);
+    } catch (error) {
+      return res.status(400).render("error", {error: error});
+    }
+  });
 
 module.exports = router;

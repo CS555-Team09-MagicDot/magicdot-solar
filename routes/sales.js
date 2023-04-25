@@ -70,20 +70,24 @@ router
 			}
 			console.log(userDetails);
 
-			const projectDetails = await projectData.getProjectById(inquiryDetails.projectId);
-			console.log(projectDetails.status);
 			var projectStatus = 0;
 
-			if(projectDetails.status == 'approved'){projectStatus=1}
-			else if(projectDetails.status == 'site inspection'){projectStatus=2}
-			else if(projectDetails.status == 'inventory check'){projectStatus=3}
-			else if(projectDetails.status == 'under construction'){projectStatus=4}
-			else if(projectDetails.status == 'final inspection'){projectStatus=5}
-			else if(projectDetails.status == 'finished'){projectStatus=6}
-			else { throw "Project Status Invalid"}
+			// If project is created by operational manager
+			if (inquiryDetails.isProjectCreated){
+				const projectDetails = await projectData.getProjectById(inquiryDetails.projectId);
+				console.log(projectDetails.status);
+				
+				if(projectDetails.status == 'approved'){projectStatus=1}
+				else if(projectDetails.status == 'site inspection'){projectStatus=2}
+				else if(projectDetails.status == 'inventory check'){projectStatus=3}
+				else if(projectDetails.status == 'under construction'){projectStatus=4}
+				else if(projectDetails.status == 'final inspection'){projectStatus=5}
+				else if(projectDetails.status == 'finished'){projectStatus=6}
+				else { throw "Project Status Invalid"}
+			}
 
 			console.log(projectStatus);
-
+			
 			return res.status(200).render("inquiryDetails", { 
 				title: "Magicdot - Inquiry Details", 
 				inquiryDetails: inquiryDetails, 

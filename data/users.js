@@ -68,6 +68,17 @@ const getUserByEmail = async (userEmail) => {
 	return user;
 };
 
+const getUsersByRole = async (userRole) => {
+	//userEmail = validators.validateEmail(userEmail);
+	const userCollection = await users();
+	const usersList = await userCollection.find({ role: userRole }).toArray();
+	if (!usersList == null) return [];
+	for(i in usersList){
+		usersList[i]._id = usersList[i]._id.toString();
+	}
+	return usersList;
+};
+
 const checkUser = async (email, password) => {
 	if (!email || !password) throw { status: 400, message: "Must provide both email and password" };
 	const userCollection = await users();
@@ -151,4 +162,5 @@ module.exports = {
 	addSalesInquiryIdToCustomer,
 	addProjectToUser,
 	getUsersOnGoingProjects,
+	getUsersByRole
 };
