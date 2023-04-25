@@ -190,6 +190,23 @@ const closeSalesInquiry = async (id) => {
 	return updatedInquiry;
 };
 
+const addProjectToInquiry = async (projectId, inquiryId) => {
+
+	console.log(projectId);
+	console.log(inquiryId);
+
+	const inquiryInfo = await getInquiryById(inquiryId);
+
+	var query = { _id: new ObjectId(inquiryId) };
+	newValue = { $set: { projectId: projectId } };
+
+	const salesInquiryCollection = await salesInquiry();
+	const updateInfo = await salesInquiryCollection.updateOne(query, newValue);
+
+	// console.log(updateInfo);
+	return await getInquiryById(inquiryId);
+};
+
 module.exports = {
 	newInquiry,
 	assignSalesRepToInquiry,
@@ -204,4 +221,5 @@ module.exports = {
 	addNewMessage,
 	getInquiryMessages,
 	closeSalesInquiry,
+	addProjectToInquiry
 };

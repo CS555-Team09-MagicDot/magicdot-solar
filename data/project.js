@@ -65,6 +65,7 @@ const createProject = async (name, description, startDate, endDate, status, appr
 	};
 	return sendProjectInfo;
 };
+
 const getProjectById = async (projectId) => {
 	projectId = validators.validateId(projectId, "project ID");
 	const projectCollection = await projects();

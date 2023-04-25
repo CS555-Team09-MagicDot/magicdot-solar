@@ -6,6 +6,7 @@ const salesInquiryData = require("../data/salesInquiry");
 const customerPayment = require("../data/customerPayment");
 const router = express.Router();
 const PDFDocument = require("pdfkit");
+const projectData = require("../data/project");
 
 router.route("/").get(async (req, res) => {
 	try {
@@ -35,6 +36,21 @@ router.route("/").get(async (req, res) => {
 		else {
 			greeting = "Welcome!";
 		}
+
+		const projectDetails = await projectData.getProjectById(inquiryDetails.projectId);
+		console.log(projectDetails.status);
+		var projectStatus = 0;
+
+		if(projectDetails.status == 'approved'){projectStatus=1}
+		else if(projectDetails.status == 'site inspection'){projectStatus=2}
+		else if(projectDetails.status == 'inventory check'){projectStatus=3}
+		else if(projectDetails.status == 'under construction'){projectStatus=4}
+		else if(projectDetails.status == 'final inspection'){projectStatus=5}
+		else if(projectDetails.status == 'finished'){projectStatus=6}
+		else { throw "Project Status Invalid"}
+
+		console.log(projectStatus);
+
 		return res.status(200).render("customerDashboard", {
 			title: "Customer Dashboard",
 			user: req.session.user,
@@ -43,6 +59,7 @@ router.route("/").get(async (req, res) => {
 			inquiryDetails: inquiryDetails,
 			messages: messages,
 			greeting: greeting,
+			projectStatuses: projectStatus
 		});
 	} catch (e) {
 		//return res.status(e.status).render("homepage", { error: e.message });
