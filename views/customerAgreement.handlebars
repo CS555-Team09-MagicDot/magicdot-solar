@@ -4,11 +4,11 @@
   <body>
     <div class="container mx-auto p-4">
       <h1 class="text-center text-xl font-bold">Customer Agreement</h1>
-      {{#if user.isSigned}}
-        <p class="text-center">Dear {{user.name}}, you have already signed the agreement on {{user.signedDate}}.</p>
+      {{#if user.doc.isSigned}}
+        <p class="text-center">Dear {{user.name}}, you have already signed the agreement on {{user.doc.signedDate}}.</p>
         <div class="bg-gray-100 p-4 mt-4">
           <p><strong>Agreement</strong></p>
-          <p>Text of the agreement goes here.</p>
+          <p>{{user.doc.content}}</p>
         </div>
 
          <div class="mb-4 py-6">
@@ -20,7 +20,7 @@
         <form method="POST" action="/customer/customerAgreement" onsubmit="return validateForm()">
       <div class="bg-gray-100 p-4 mt-4">
         <p><strong>Agreement</strong></p>
-        <p>Text of the agreement goes here.</p>
+        <p>{{user.doc.content}}</p>
       </div>
       <input type="hidden" name="email" value="{{user.email}}">
 
@@ -34,11 +34,11 @@
         </label>
         <div id="agreeError" class="text-red-500 text-sm hidden">Please agree to the terms of the agreement</div>
       </div>
-     <div class="mt-4" style="display: flex; flex-direction: column;">
+     <!--<div class="mt-4" style="display: flex; flex-direction: column;">
   <label for="datePicker" class="block font-medium text-gray-700">Select a date:</label>
   <input type="date" id="datePicker" name="datePicker" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
   <div id="dateError" class="text-red-500 text-sm hidden">Please select a date</div>
-    </div>
+    </div>-->
       <div class="mt-4">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Submit Agreement

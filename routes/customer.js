@@ -110,7 +110,8 @@ router.route("/customerAgreement").post(async (req, res) => {
 		if (!customer) {
 			return res.status(404).send("Customer not found");
 		}
-		req.session.user.isSigned = true;
+		//req.session.user.isSigned = true;
+		req.session.user.doc.isSigned = true;
 		// If the customer is updated successfully, return a success message
 		return res.status(200).redirect("/customer");
 	} catch (err) {
