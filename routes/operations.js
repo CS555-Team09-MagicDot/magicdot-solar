@@ -186,4 +186,26 @@ router
     }
   });
 
+  router.route("/markprojectcomplete/:projectId").get(async (req, res) => {
+    if (!req.session.user || req.session.user.role !== "operational manager") {
+      return res.redirect("/");
+    }
+    try {
+      console.log(req.params.projectId)
+      const projectDetails = await projectData.getProjectById(req.params.projectId);
+      
+      // code here for marking project as complete - project collection change status to 'finished'
+
+      // use projectDetails.customerId to access customer data - remove projectId from ongoingProjects array and add it to finishedProjects
+
+      // use projectDetails.operationsManager to access manager data - remove projectId from ongoingProjects array and add it to finishedProjects
+  
+      // same for constructionCrew
+
+      return res.redirect("/operations");
+    } catch (error) {
+      return res.status(400).render("error", {error: error});
+    }
+  });
+
 module.exports = router;
