@@ -27,8 +27,9 @@ router
 				role: user.role,
 				email: user.email,
 				phoneNumber: user.phoneNumber,
-				isSigned: user.isSigned,
-				signedDate: user.signedDate,
+				//isSigned: user.isSigned,
+				//signedDate: user.signedDate,
+				doc: user.doc
 			};
 			req.session.user = userData;
 			if (userData.role === "sales representative") return res.status(200).redirect("/sales");

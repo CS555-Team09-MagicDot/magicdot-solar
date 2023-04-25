@@ -18,6 +18,7 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 	if (await userCollection.findOne({ email: email })) throw { status: 400, message: `An account with that email already exists` };
 	const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+	
 	const newUser = {
 		name: `${firstName} ${lastName}`,
 		role: role,
@@ -28,8 +29,9 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		salesInquiries: [],
 		ongoingProjects: [],
 		finishedProjects: [],
-		isSigned: false,
-		signedDate: null,
+		doc: {isSigned: false, signedDate: null, content: "This Agreement is made between CUSTOMER and MAGICDOT for the installation of solar panels. MAGICDOT agrees to install solar panels as per the specifications agreed upon by the parties. The total cost of the installation project is $500 (the Total Cost), which includes the cost of materials, installation, and any additional services as agreed upon by the parties. The solar panels and any other equipment supplied will be free from defects in materials and workmanship for a period of 5 years from the date of installation. Ownership of the solar panels shall pass to the CUSTOMER upon completion of the installation project and full payment of the Total Cost."},
+		//isSigned: false,
+		//signedDate: null,
 	};
 	const insertUserInfo = await userCollection.insertOne(newUser);
 	if (!insertUserInfo.acknowledged || !insertUserInfo.insertedId) throw { status: 500, message: "Could not create new user" };
@@ -42,8 +44,9 @@ const createUser = async (firstName, lastName, role, email, phoneNumber, passwor
 		email: newUserInfo.email,
 		phoneNumber: newUserInfo.phoneNumber,
 		password: newUserInfo.password,
-		isSigned: newUserInfo.isSigned,
-		signedDate: newUserInfo.signedDate,
+		//isSigned: newUserInfo.isSigned,
+		//signedDate: newUserInfo.signedDate,
+		doc: newUserInfo.doc
 	};
 	return sendUserInfo;
 };
@@ -94,20 +97,22 @@ const checkUser = async (email, password) => {
 		role: user.role,
 		email: user.email,
 		phoneNumber: user.phoneNumber,
-		isSigned: user.isSigned,
-		signedDate: user.signedDate,
+		//isSigned: user.isSigned,
+		//signedDate: user.signedDate,
+		doc: user.doc
 	};
 	
 	return sendUserInfo;
 };
 
 const checkUserAgreement = async (email, datePicker ) => {
+	const currentDate = new Date().toLocaleDateString();
 	const userCollection = await users();
 	
 
 	var myQuery = { email: email };
-
-	var newValues = { $set: { isSigned: true, signedDate: datePicker } };
+	//isSigned: true, signedDate: datePicker, 
+	var newValues = { $set: { 'doc.isSigned': true, 'doc.signedDate': currentDate } };
 	const customer = await userCollection.updateOne(myQuery, newValues);
 	return customer;
 };
