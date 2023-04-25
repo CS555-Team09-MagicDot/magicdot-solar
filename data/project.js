@@ -65,6 +65,7 @@ const createProject = async (name, description, startDate, endDate, status, appr
 	};
 	return sendProjectInfo;
 };
+
 const getProjectById = async (projectId) => {
 	projectId = validators.validateId(projectId, "project ID");
 	const projectCollection = await projects();
@@ -109,6 +110,7 @@ const createProjectUsingRequest = async (reqObj, operationalManagerId) => {
 		status: "approved",
 		constructionCrew: null,
 		operationsManager: operationalManagerId,
+		projectTasks: []
 	};
 
 	const projectsCollection = await projects();
@@ -120,6 +122,34 @@ const createProjectUsingRequest = async (reqObj, operationalManagerId) => {
 	return projectCreated;
 };
 
+const addProjectTask = async (projectId, task) => {
+
+	const projectInfo = await getProjectById(projectId);
+	//console.log(task);
+	var arr = projectInfo.projectTasks;
+	arr.push(task);
+	console.log(arr);
+
+	var query = { _id: new ObjectId(projectId) };
+	newValue = { $set: { projectTasks: arr } };
+
+	const projectsCollection = await projects();
+	const updateInfo = await projectsCollection.updateOne(query, newValue);
+
+	// console.log(updateInfo);
+	return await getProjectById(projectId);
+};
+
+const getProjectTasksByProjectId = async (projectId) => {
+
+	const projectInfo = await getProjectById(projectId);
+	const projectTasks = projectInfo.projectTasks;
+	console.log(projectTasks);
+
+	return projectTasks;
+};
+
+
 module.exports = {
 	getApprovedProjects,
 	getPendingProjects,
@@ -128,4 +158,6 @@ module.exports = {
 	getProjectById,
 	getProjectsByConstructionCrew,
 	createProjectUsingRequest,
+	addProjectTask,
+	getProjectTasksByProjectId
 };

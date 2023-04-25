@@ -5,6 +5,7 @@ const usersData = require("../data/users");
 const sendMailData = require("../data/sendMail");
 const projectRequestData = require("../data/projectRequest");
 const validators = require("../validators");
+const projectData = require("../data/project");
 
 router.route("/").get(async (req, res) => {
 	try {
@@ -68,7 +69,34 @@ router
 				}
 			}
 			console.log(userDetails);
-			return res.status(200).render("inquiryDetails", { title: "Magicdot - Inquiry Details", inquiryDetails: inquiryDetails, userDetails: userDetails, inquiryId: req.params.inquiryId, inquiryStatus: inquiryDetails.status, messages: messages });
+
+			var projectStatus = 0;
+
+			// If project is created by operational manager
+			if (inquiryDetails.isProjectCreated){
+				const projectDetails = await projectData.getProjectById(inquiryDetails.projectId);
+				console.log(projectDetails.status);
+				
+				if(projectDetails.status == 'approved'){projectStatus=1}
+				else if(projectDetails.status == 'site inspection'){projectStatus=2}
+				else if(projectDetails.status == 'inventory check'){projectStatus=3}
+				else if(projectDetails.status == 'under construction'){projectStatus=4}
+				else if(projectDetails.status == 'final inspection'){projectStatus=5}
+				else if(projectDetails.status == 'finished'){projectStatus=6}
+				else { throw "Project Status Invalid"}
+			}
+
+			console.log(projectStatus);
+			
+			return res.status(200).render("inquiryDetails", { 
+				title: "Magicdot - Inquiry Details", 
+				inquiryDetails: inquiryDetails, 
+				userDetails: userDetails, 
+				inquiryId: req.params.inquiryId, 
+				inquiryStatus: inquiryDetails.status, 
+				messages: messages,
+				projectStatuses: projectStatus
+			});
 		} catch (error) {
 			return res.status(400).render("error", { error: error });
 		}

@@ -5,6 +5,7 @@ const projectRequestData = require("../data/projectRequest");
 const projectData = require("../data/project");
 const customerData = require("../data/customer");
 const usersData = require("../data/users");
+const salesInquiryData = require("../data/salesInquiry");
 
 router.route("/").get(async (req, res) => {
   if (!req.session.user || req.session.user.role !== "operational manager") {
@@ -75,8 +76,12 @@ router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
         req.params.projectReqId
       );
 
+    // Add ProjectId to customer collection
+    const allOnsiteTeams = await usersData.getUsersByRole("onsite team");
+
     return res.status(200).render("projectRequestDetails", {
       title: "Project Request Details",
+      onSiteTeams: allOnsiteTeams,
       projectRequestDetails: projectRequestDetails, // pass project details data to the view
     });
   } catch (error) {
@@ -89,14 +94,24 @@ router.route("/project/:id").get(async (req, res) => {
     return res.redirect("/");
   }
   try {
-    // console.log(req.params.projectReqId)
-    // const projectRequestDetails =
-    //   await projectRequestData.getAllProjectRequestDetails(
-    //     req.params.id
-    //   );
-    const projectStatus = 3;
+    
+    const projectDetails = await projectData.getProjectById(req.params.id);
+    console.log(projectDetails.status);
+    var projectStatus = 0;
+
+    if(projectDetails.status == 'approved'){projectStatus=1}
+    else if(projectDetails.status == 'site inspection'){projectStatus=2}
+    else if(projectDetails.status == 'inventory check'){projectStatus=3}
+    else if(projectDetails.status == 'under construction'){projectStatus=4}
+    else if(projectDetails.status == 'final inspection'){projectStatus=5}
+    else if(projectDetails.status == 'finished'){projectStatus=6}
+    else { throw "Project Status Invalid"}
+
+    console.log(projectStatus);
+
     return res.status(200).render("projectDetails", {
       title: "Project Details",
+      projectDetails: projectDetails,
       projectStatuses: projectStatus,
     });
   } catch (error) {
@@ -114,13 +129,16 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
         req.params.projectReqId
       );
     // console.log(projectRequestDetails);
+
+    if (projectRequestDetails.status == false) throw "Project already created";
+
     const createProjectInfo = await projectData.createProjectUsingRequest(
       projectRequestDetails,
       req.session.user._id
     );
     // console.log(createProjectInfo);
 
-    // Chnaging Project Request Status
+    // Changing Project Request Status
     const updatedProjectRequest = await projectRequestData.closeProjectRequest(
       req.params.projectReqId
     );
@@ -136,10 +154,36 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
       req.session.user._id
     );
 
+    // Add ProjectId to salesInquiry collection
+    const updatedsalesInquiry = await salesInquiryData.addProjectToInquiry(
+      createProjectInfo._id,
+      projectRequestDetails.inquiryId
+    );
+
     return res.redirect("/operations");
   } catch (error) {
     return res.status(400).render("error", {error: error});
   }
 });
+
+router
+  .route("/addprojecttask/:projectId")
+  .post(async (req, res) => {
+    if (!req.session.user || req.session.user.role !== "operational manager") {
+      return res.redirect("/");
+    }
+    try {
+      const task = req.body.task;
+      console.log(task);
+      const taskAdded = await projectData.addProjectTask(
+        req.params.projectId,
+        task
+      );
+
+      return res.redirect("/operations/project/"+req.params.projectId);
+    } catch (error) {
+      return res.status(400).render("error", {error: error});
+    }
+  });
 
 module.exports = router;

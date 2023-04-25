@@ -1,3 +1,9 @@
+<head>
+	<style>
+    .project-details { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); } .details-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; } .details-item:last-child { border-bottom: none; } .details-item .label { font-weight: bold; color: #555; } .details-item .value { color: #333; }
+	</style>
+</head>
+
 <div class="flex">
   <div
     class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between"
@@ -97,31 +103,49 @@
             {{/each}}
           </ul> --}}
         </div>
-        <div
-          class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll"
-        >
-          <h1 class="text-3xl font-medium text-teal-600 p-2">Projects Details</h1>
-          {{!-- <ul>
-            {{#each ongoingProjectList}}
-              <li
-                class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
-              >
-                <a href="/operations/project/{{this._id}}">
-                  <div class="bg-teal-100 rounded-lg p-5">
-                    <img
-                      src="../public/img/solar-panel.svg"
-                      class="text-purple-800 w-[40px]"
-                    />
-                  </div>
-                </a>
-                <div class="pl-4">
-                  <a href="/operations/project/{{this._id}}">
-                    <p class="text-gray-800 font-bold">{{name}}</p>
-                    <p class="text-gray-400 text-sm">{{address}}</p></a>
-                </div>
-              </li>
-            {{/each}}
-          </ul> --}}
+        <div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
+          
+          <h1 class="text-3xl font-medium text-teal-600 p-2">Project Details</h1>
+
+          <div class="details-item">
+            <span class="label">Project</span>
+            <span class="value">{{projectDetails.name}}</span>
+          </div>
+
+          <div class="details-item">
+            <span class="label">Address</span>
+            <span class="value">{{projectDetails.address}}</span>
+          </div>
+
+          <div class="details-item">
+            <span class="label">Site Area</span>
+            <span class="value">{{projectDetails.area}} sq. ft.</span>
+          </div>
+          
+          <div class="details-item">
+            <span class="label">Annual Usage</span>
+            <span class="value">{{projectDetails.annualUsage}} kWh</span>
+          </div>
+
+          <div class="details-item">
+            <span class="label">Annual Cost</span>
+            <span class="value">${{projectDetails.annualCost}}</span>
+          </div>
+          
+          <div class="details-item">
+            <span class="label">Address</span>
+            <span class="value">{{projectDetails.address}}</span>
+          </div>
+
+          <br>
+          <h1 class="text-3xl font-medium text-teal-600 p-2">Add Tasks</h1>
+          <form class="mt-1 pb-1" action="/operations/addprojecttask/{{projectDetails._id}}" method="POST" encType="multipart/form-data">
+            <div class="flex flex-row justify-between">
+              <input id="task" name="task" type="text" placeholder="Task" class="block px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" autocomplete required />
+              <button type="submit " class="block bg-emerald-700 hover:bg-emerald-800 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-2 mt-2">Add Task</button>
+            </div>
+          </form>
+
         </div>
       </div>
     </main>

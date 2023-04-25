@@ -28,9 +28,22 @@
 				<span class="label">Annual Cost</span>
 				<span class="value">${{projectRequestDetails.annualCost}}</span>
 			</div>
+
 			<div class="details-item">
 				<span class="label">Address</span>
 				<span class="value">{{projectRequestDetails.address}}</span>
+			</div>
+
+			<div class="details-item">
+				<span class="label">Select On-Site Team</span>
+				<span class="value">
+					<select name="selectedOnSiteTeam" id="selectedOnSiteTeam">
+						<option>Choose On-Site Team</option>
+						{{#each onSiteTeams}}
+							<option value="{{this}}">{{this.name}}</option>
+						{{/each}}
+					</select>
+				</span>
 			</div>
 
 			<br />

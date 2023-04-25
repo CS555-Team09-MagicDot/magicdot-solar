@@ -6,6 +6,7 @@ const salesInquiryData = require("../data/salesInquiry");
 const customerPayment = require("../data/customerPayment");
 const router = express.Router();
 const PDFDocument = require("pdfkit");
+const projectData = require("../data/project");
 
 router.route("/").get(async (req, res) => {
 	try {
@@ -35,6 +36,26 @@ router.route("/").get(async (req, res) => {
 		else {
 			greeting = "Welcome!";
 		}
+
+		var projectStatus = 0;
+
+		// If project is created by operational manager
+		if (inquiryDetails.isProjectCreated){
+			const projectDetails = await projectData.getProjectById(inquiryDetails.projectId);
+			console.log(projectDetails.status);
+				
+			if(projectDetails.status == 'approved'){projectStatus=1}
+			else if(projectDetails.status == 'site inspection'){projectStatus=2}
+			else if(projectDetails.status == 'inventory check'){projectStatus=3}
+			else if(projectDetails.status == 'under construction'){projectStatus=4}
+			else if(projectDetails.status == 'final inspection'){projectStatus=5}
+			else if(projectDetails.status == 'finished'){projectStatus=6}
+			else { throw "Project Status Invalid"}
+		}
+
+		console.log(projectStatus);
+
+
 		return res.status(200).render("customerDashboard", {
 			title: "Customer Dashboard",
 			user: req.session.user,
@@ -43,6 +64,7 @@ router.route("/").get(async (req, res) => {
 			inquiryDetails: inquiryDetails,
 			messages: messages,
 			greeting: greeting,
+			projectStatuses: projectStatus
 		});
 	} catch (e) {
 		//return res.status(e.status).render("homepage", { error: e.message });
@@ -64,6 +86,7 @@ router.route("/postmessage/:inquiryId").post(async (req, res) => {
 
 router.route("/documents").get(async (req, res) => {
 	try {
+		console.log(req.session.user.signedDate)
 		return res.status(200).render("customerAgreement", {
 			title: "Customer Agreement",
 			user: req.session.user,
@@ -78,15 +101,17 @@ router.route("/customerAgreement").post(async (req, res) => {
 	try {
 		//const user = req.session.user
 		//email = user.email
-
-		const customer = await users.checkUserAgreement(req.body.email);
+		
+		req.body.customerName = validators.validateName(req.body.customerName.replace(/\s+/g, ''), "first name");
+		const customer = await users.checkUserAgreement(req.body.email, req.body.datePicker);
 		// Find the customer by email and update their record
 
 		// If the customer is not found, return a 404 error
 		if (!customer) {
 			return res.status(404).send("Customer not found");
 		}
-		req.session.user.isSigned = true;
+		//req.session.user.isSigned = true;
+		req.session.user.doc.isSigned = true;
 		// If the customer is updated successfully, return a success message
 		return res.status(200).redirect("/customer");
 	} catch (err) {
