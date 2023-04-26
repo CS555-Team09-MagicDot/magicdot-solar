@@ -1,56 +1,50 @@
 <head>
 	<style>
-    .project-details { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); } .details-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; } .details-item:last-child { border-bottom: none; } .details-item .label { font-weight: bold; color: #555; } .details-item .value { color: #333; }
+		.project-details { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); } .details-item { display:
+		flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; } .details-item:last-child {
+		border-bottom: none; } .details-item .label { font-weight: bold; color: #555; } .details-item .value { color: #333; }
 	</style>
 </head>
 
 <div class="flex">
-  <div
-    class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between"
-  >
-    <div class="flex flex-col items-center">
-      <a href="/operations">
-        <div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
-          <img src="public/img/logo_white.svg" style="width:20px" />
-        </div>
-      </a>
-      <span class="border-b-[1px] border-gray-200 w-full p-2"></span>
-      <a href="/operations">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/dashboard.svg" style="width:20px" />
-        </div>
-      </a>
-      <a href="/operations/inventory">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/inventory.svg" style="width:20px" />
-        </div>
-      </a>
-      <a href="/logout">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/logout.svg" style="width:20px" />
-        </div>
-      </a>
-    </div>
-  </div>
-  <main class="ml-20 w-full">
-    <main class="bg-gray-100 min-h-screen">
+	<div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
+		<div class="flex flex-col items-center">
+			<a href="/operations">
+				<div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
+					<img src="public/img/logo_white.svg" style="width:20px" />
+				</div>
+			</a>
+			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
+			<a href="/operations">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/dashboard.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/operations/inventory">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/inventory.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/logout">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/logout.svg" style="width:20px" />
+				</div>
+			</a>
+		</div>
+	</div>
+	<main class="ml-20 w-full">
+		<main class="bg-gray-100 min-h-screen">
 
-      <div class="grid grid-cols-1 gap-4 p-4">
-        <div class="p-4 space-y-2 grid grid-cols-6 mt-4">
-          <div class="flex col-span-6 space-x-5">
-            <span class="h-2 w-full rounded-sm bg-green-600"></span>
-            <span class="h-2 w-full rounded-sm bg-green-600"></span>
-            <span class="h-2 w-full rounded-sm bg-lime-600"></span>
-            <span class="h-2 w-full rounded-sm bg-gray-600"></span>
-            <span class="h-2 w-full rounded-sm bg-gray-600"></span>
-            <span class="h-2 w-full rounded-sm bg-gray-600"></span>
-            {{!-- {{#each projectStatuses}}
+			<div class="grid grid-cols-1 gap-4 p-4">
+				<div class="p-4 space-y-2 grid grid-cols-6 mt-4">
+					<div class="flex col-span-6 space-x-5">
+						<span class="h-2 w-full rounded-sm bg-green-600"></span>
+						<span class="h-2 w-full rounded-sm bg-green-600"></span>
+						<span class="h-2 w-full rounded-sm bg-lime-600"></span>
+						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
+						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
+						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
+						{{!-- {{#each projectStatuses}}
             {{#if (lt @index ../projectStatus)}}
             <span class="h-2 w-full rounded-sm bg-green-600"></span>
             {{else if (eq @index ../projectStatus)}}
@@ -59,95 +53,89 @@
             <span class="h-2 w-full rounded-sm bg-gray-600"></span>
             {{/if}}
       {{/each}} --}}
-          </div>
-          <div class="flex col-span-6 space-x-7">
-            <span class="h-2 w-full rounded-sm">Initialized</span>
-            <span class="h-2 w-full rounded-sm">Site Inspection</span>
-            <span class="h-2 w-full rounded-sm">Inventory Check</span>
-            <span class="h-2 w-full rounded-sm">Under Construction</span>
-            <span class="h-2 w-full rounded-sm">Final Inspection</span>
-            <span class="h-2 w-full rounded-sm">Finished</span>
-          </div>
-        </div>
-      </div>
+					</div>
+					<div class="flex col-span-6 space-x-7">
+						<span class="h-2 w-full rounded-sm">Initialized</span>
+						<span class="h-2 w-full rounded-sm">Site Inspection</span>
+						<span class="h-2 w-full rounded-sm">Inventory Check</span>
+						<span class="h-2 w-full rounded-sm">Under Construction</span>
+						<span class="h-2 w-full rounded-sm">Final Inspection</span>
+						<span class="h-2 w-full rounded-sm">Finished</span>
+					</div>
+				</div>
+			</div>
 
-      <div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
-        <div
-          class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white"
-        >
-          <h1 class="text-3xl font-medium text-teal-600 p-2">New Project
-            Requests</h1>
-          {{!-- <ul>
-            {{#each projectRequestList}}
-              {{#if status}}
-                <li
-                  class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
-                >
-                  <div class="bg-teal-100 rounded-lg p-5">
-                    <img
-                      src="../public/img/solar.svg"
-                      class="text-purple-800 w-[40px]"
-                    />
-                  </div>
-                  <div class="pl-4">
-                    <p class="text-gray-800 font-bold">{{subject}}</p>
-                    <p class="text-gray-400 text-sm">{{customerName}}</p>
-                  </div>
-                  <p
-                    class="lg:flex md:hidden absolute right-6 text-md font-medium"
-                  ><a href="/operations/projectreqdetails/{{_id}}"><button
-                        class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg"
-                      >Show Details</button></a></p>
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul> --}}
-        </div>
-        <div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
-          
-          <h1 class="text-3xl font-medium text-teal-600 p-2">Project Details</h1>
+			<div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
+				<div class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">Project Tasks</h1>
+					<ul class="h-[55vh] overflow-y-auto">
+						{{#each projectTasksList}}
+							<li>
+								<div class="tasks py-2 px-1 w-full">
+									<div class="w-full">
+										<div class="mx-2 order-2 items-start">
+											<div class="px-4 py-2 inline-block rounded-lg bg-slate-300 text-black">
+												<span><span class="font-medium">Task added: </span> {{date}}</span><br />
+												<span class=""><span class="font-medium">Task: </span> {{task}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						{{/each}}
+					</ul>
+					<form class="mt-1 pb-1" action="/operations/addprojecttask/{{projectDetails._id}}" method="POST" encType="multipart/form-data">
+						<div class="flex flex-row justify-between">
+							<input
+								id="task"
+								name="task"
+								type="text"
+								placeholder="Task"
+								class="w-10/12 m-2 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring"
+								autocomplete
+								required
+							/>
+							<button
+								type="submit"
+								class="bg-emerald-700 hover:bg-emerald-800 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-2 mt-2"
+							>Add Task</button>
+						</div>
+					</form>
+				</div>
+				<div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">Project Details</h1>
+					<div class="details-item">
+						<span class="label">Project</span>
+						<span class="value">{{projectDetails.name}}</span>
+					</div>
 
-          <div class="details-item">
-            <span class="label">Project</span>
-            <span class="value">{{projectDetails.name}}</span>
-          </div>
+					<div class="details-item">
+						<span class="label">Address</span>
+						<span class="value">{{projectDetails.address}}</span>
+					</div>
 
-          <div class="details-item">
-            <span class="label">Address</span>
-            <span class="value">{{projectDetails.address}}</span>
-          </div>
+					<div class="details-item">
+						<span class="label">Site Area</span>
+						<span class="value">{{projectDetails.area}} sq. ft.</span>
+					</div>
 
-          <div class="details-item">
-            <span class="label">Site Area</span>
-            <span class="value">{{projectDetails.area}} sq. ft.</span>
-          </div>
-          
-          <div class="details-item">
-            <span class="label">Annual Usage</span>
-            <span class="value">{{projectDetails.annualUsage}} kWh</span>
-          </div>
+					<div class="details-item">
+						<span class="label">Annual Usage</span>
+						<span class="value">{{projectDetails.annualUsage}} kWh</span>
+					</div>
 
-          <div class="details-item">
-            <span class="label">Annual Cost</span>
-            <span class="value">${{projectDetails.annualCost}}</span>
-          </div>
-          
-          <div class="details-item">
-            <span class="label">Address</span>
-            <span class="value">{{projectDetails.address}}</span>
-          </div>
+					<div class="details-item">
+						<span class="label">Annual Cost</span>
+						<span class="value">${{projectDetails.annualCost}}</span>
+					</div>
 
-          <br>
-          <h1 class="text-3xl font-medium text-teal-600 p-2">Add Tasks</h1>
-          <form class="mt-1 pb-1" action="/operations/addprojecttask/{{projectDetails._id}}" method="POST" encType="multipart/form-data">
-            <div class="flex flex-row justify-between">
-              <input id="task" name="task" type="text" placeholder="Task" class="block px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring" autocomplete required />
-              <button type="submit " class="block bg-emerald-700 hover:bg-emerald-800 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-2 mt-2">Add Task</button>
-            </div>
-          </form>
-
-        </div>
-      </div>
-    </main>
-  </main>
+					<div class="details-item">
+						<span class="label">Address</span>
+						<span class="value">{{projectDetails.address}}</span>
+					</div>
+					<br />
+				</div>
+			</div>
+		</main>
+	</main>
 </div>
