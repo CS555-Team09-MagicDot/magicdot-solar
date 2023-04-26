@@ -27,7 +27,7 @@ router.route("/").get(async (req, res) => {
       ongoingProjectList: ongoingProjectList,
     });
   } catch (error) {
-    return res.status(400).render("error", {error: error});
+    return res.status(400).render("error", { error: error });
   }
 });
 
@@ -45,7 +45,7 @@ router
         inventory: inventory, // pass inventory data to the view
       });
     } catch (error) {
-      return res.status(400).render("error", {error: error});
+      return res.status(400).render("error", { error: error });
     }
   })
   .post(async (req, res) => {
@@ -61,7 +61,7 @@ router
       );
       return res.status(200).json(quantity);
     } catch (error) {
-      return res.status(400).render("error", {error: error});
+      return res.status(400).render("error", { error: error });
     }
   });
 
@@ -85,7 +85,7 @@ router.route("/projectreqdetails/:projectReqId").get(async (req, res) => {
       projectRequestDetails: projectRequestDetails, // pass project details data to the view
     });
   } catch (error) {
-    return res.status(400).render("error", {error: error});
+    return res.status(400).render("error", { error: error });
   }
 });
 
@@ -94,28 +94,35 @@ router.route("/project/:id").get(async (req, res) => {
     return res.redirect("/");
   }
   try {
-    
     const projectDetails = await projectData.getProjectById(req.params.id);
     console.log(projectDetails.status);
     var projectStatus = 0;
 
-    if(projectDetails.status == 'approved'){projectStatus=1}
-    else if(projectDetails.status == 'site inspection'){projectStatus=2}
-    else if(projectDetails.status == 'inventory check'){projectStatus=3}
-    else if(projectDetails.status == 'under construction'){projectStatus=4}
-    else if(projectDetails.status == 'final inspection'){projectStatus=5}
-    else if(projectDetails.status == 'finished'){projectStatus=6}
-    else { throw "Project Status Invalid"}
+    if (projectDetails.status == "approved") {
+      projectStatus = 1;
+    } else if (projectDetails.status == "site inspection") {
+      projectStatus = 2;
+    } else if (projectDetails.status == "inventory check") {
+      projectStatus = 3;
+    } else if (projectDetails.status == "under construction") {
+      projectStatus = 4;
+    } else if (projectDetails.status == "final inspection") {
+      projectStatus = 5;
+    } else if (projectDetails.status == "finished") {
+      projectStatus = 6;
+    } else {
+      throw "Project Status Invalid";
+    }
 
     console.log(projectStatus);
 
     return res.status(200).render("projectDetails", {
       title: "Project Details",
       projectDetails: projectDetails,
-      projectStatuses: projectStatus,
+      projectStatuses: projectStatus - 1,
     });
   } catch (error) {
-    return res.status(400).render("error", {error: error});
+    return res.status(400).render("error", { error: error });
   }
 });
 
@@ -162,50 +169,48 @@ router.route("/createproject/:projectReqId").get(async (req, res) => {
 
     return res.redirect("/operations");
   } catch (error) {
-    return res.status(400).render("error", {error: error});
+    return res.status(400).render("error", { error: error });
   }
 });
 
-router
-  .route("/addprojecttask/:projectId")
-  .post(async (req, res) => {
-    if (!req.session.user || req.session.user.role !== "operational manager") {
-      return res.redirect("/");
-    }
-    try {
-      const task = req.body.task;
-      console.log(task);
-      const taskAdded = await projectData.addProjectTask(
-        req.params.projectId,
-        task
-      );
+router.route("/addprojecttask/:projectId").post(async (req, res) => {
+  if (!req.session.user || req.session.user.role !== "operational manager") {
+    return res.redirect("/");
+  }
+  try {
+    const task = req.body.task;
+    console.log(task);
+    const taskAdded = await projectData.addProjectTask(
+      req.params.projectId,
+      task
+    );
 
-      return res.redirect("/operations/project/"+req.params.projectId);
-    } catch (error) {
-      return res.status(400).render("error", {error: error});
-    }
-  });
+    return res.redirect("/operations/project/" + req.params.projectId);
+  } catch (error) {
+    return res.status(400).render("error", { error: error });
+  }
+});
 
-  // router.route("/markprojectcomplete/:projectId").get(async (req, res) => {
-  //   if (!req.session.user || req.session.user.role !== "operational manager") {
-  //     return res.redirect("/");
-  //   }
-  //   try {
-  //     console.log(req.params.projectId)
-  //     const projectDetails = await projectData.getProjectById(req.params.projectId);
-      
-  //     // code here for marking project as complete - project collection change status to 'finished'
+// router.route("/markprojectcomplete/:projectId").get(async (req, res) => {
+//   if (!req.session.user || req.session.user.role !== "operational manager") {
+//     return res.redirect("/");
+//   }
+//   try {
+//     console.log(req.params.projectId)
+//     const projectDetails = await projectData.getProjectById(req.params.projectId);
 
-  //     // use projectDetails.customerId to access customer data - remove projectId from ongoingProjects array and add it to finishedProjects
+//     // code here for marking project as complete - project collection change status to 'finished'
 
-  //     // use projectDetails.operationsManager to access manager data - remove projectId from ongoingProjects array and add it to finishedProjects
-  
-  //     // same for constructionCrew
+//     // use projectDetails.customerId to access customer data - remove projectId from ongoingProjects array and add it to finishedProjects
 
-  //     return res.redirect("/operations");
-  //   } catch (error) {
-  //     return res.status(400).render("error", {error: error});
-  //   }
-  // });
+//     // use projectDetails.operationsManager to access manager data - remove projectId from ongoingProjects array and add it to finishedProjects
+
+//     // same for constructionCrew
+
+//     return res.redirect("/operations");
+//   } catch (error) {
+//     return res.status(400).render("error", {error: error});
+//   }
+// });
 
 module.exports = router;
