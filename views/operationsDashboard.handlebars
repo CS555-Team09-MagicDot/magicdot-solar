@@ -1,139 +1,104 @@
 <div class="flex">
-  <div
-    class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between"
-  >
-    <div class="flex flex-col items-center">
-      <a href="/operations">
-        <div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
-          <img src="public/img/logo_white.svg" style="width:20px" />
-        </div>
-      </a>
-      <span class="border-b-[1px] border-gray-200 w-full p-2"></span>
-      <a href="/operations">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/dashboard.svg" style="width:20px" />
-        </div>
-      </a>
-      <a href="/operations/inventory">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/inventory.svg" style="width:20px" />
-        </div>
-      </a>
-      <a href="/logout">
-        <div
-          class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block"
-        >
-          <img src="public/img/logout.svg" style="width:20px" />
-        </div>
-      </a>
-    </div>
-  </div>
-  <main class="ml-20 w-full">
-    <main class="bg-gray-100 min-h-screen">
-      <div class="grid lg:grid-cols-5 gap-4 p-4">
-        <div
-          class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg"
-        >
-          <div class="flex flex-col w-full pb-4 pt-2 pl-4">
-            <p class="text-2xl font-bold">14</p>
-            <p class="text-gray-600">Projects Finished</p>
-          </div>
-          <p
-            class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg"
-          >
-            <span class="text-teal-700 text-lg">+18%</span>
-          </p>
-        </div>
-        <div
-          class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg"
-        >
-          <div class="flex flex-col w-full pb-4 pt-2 pl-4">
-            <p class="text-2xl font-bold">$35,486</p>
-            <p class="text-gray-600">YTD Revenue</p>
-          </div>
-          <p
-            class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg"
-          >
-            <span class="text-teal-700 text-lg">+13%</span>
-          </p>
-        </div>
-        <div
-          class="col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg"
-        >
-          <div class="flex flex-col w-full pb-4 pt-2 pl-4">
-            <p class="text-2xl font-bold">4</p>
-            <p class="text-gray-600">Ongoing Projects</p>
-          </div>
-          <p
-            class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg"
-          >
-            <span class="text-teal-700 text-lg">+25%</span>
-          </p>
-        </div>
-      </div>
-      <div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
-        <div
-          class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white"
-        >
-          <h1 class="text-3xl font-medium text-teal-600 p-2">New Project
-            Requests</h1>
-          <ul>
-            {{#each projectRequestList}}
-              {{#if status}}
-                <li
-                  class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
-                >
-                  <div class="bg-teal-100 rounded-lg p-5">
-                    <img
-                      src="../public/img/solar.svg"
-                      class="text-purple-800 w-[40px]"
-                    />
-                  </div>
-                  <div class="pl-4">
-                    <p class="text-gray-800 font-bold">{{subject}}</p>
-                    <p class="text-gray-400 text-sm">{{customerName}}</p>
-                  </div>
-                  <p
-                    class="lg:flex md:hidden absolute right-6 text-md font-medium"
-                  ><a href="/operations/projectreqdetails/{{_id}}"><button
-                        class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg"
-                      >Show Details</button></a></p>
-                </li>
-              {{/if}}
-            {{/each}}
-          </ul>
-        </div>
-        <div
-          class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll"
-        >
-          <h1 class="text-3xl font-medium text-teal-600 p-2">Ongoing Projects</h1>
-          <ul>
-            {{#each ongoingProjectList}}
+	<div class="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
+		<div class="flex flex-col items-center">
+			<a href="/operations">
+				<div class="bg-teal-600 text-white p-3 rounded-lg inline-block">
+					<img src="public/img/logo_white.svg" style="width:20px" />
+				</div>
+			</a>
+			<span class="border-b-[1px] border-gray-200 w-full p-2"></span>
+			<a href="/operations">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/dashboard.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/operations/inventory">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/inventory.svg" style="width:20px" />
+				</div>
+			</a>
+			<a href="/logout">
+				<div class="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+					<img src="public/img/logout.svg" style="width:20px" />
+				</div>
+			</a>
+		</div>
+	</div>
+	<main class="ml-20 w-full">
+		<main class="bg-gray-100 min-h-screen">
+			<div class="grid lg:grid-cols-5 gap-4 p-4">
+				<div class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">14</p>
+						<p class="text-gray-600">Projects Finished</p>
+					</div>
+					<p class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg">
+						<span class="text-teal-700 text-lg">+18%</span>
+					</p>
+				</div>
+				<div class="lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">$35,486</p>
+						<p class="text-gray-600">YTD Revenue</p>
+					</div>
+					<p class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg">
+						<span class="text-teal-700 text-lg">+13%</span>
+					</p>
+				</div>
+				<div class="col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg">
+					<div class="flex flex-col w-full pb-4 pt-2 pl-4">
+						<p class="text-2xl font-bold">4</p>
+						<p class="text-gray-600">Ongoing Projects</p>
+					</div>
+					<p class="bg-teal-100 flex justify-center items-center p-2 px-8 rounded-lg">
+						<span class="text-teal-700 text-lg">+25%</span>
+					</p>
+				</div>
+			</div>
+			<div class="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
+				<div class="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">New Project Requests</h1>
+					<ul>
+						{{#each projectRequestList}}
+							{{#if status}}
+								<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer">
+									<div class="bg-teal-100 rounded-lg p-5">
+										<img src="../public/img/solar.svg" class="text-purple-800 w-[40px]" />
+									</div>
+									<div class="pl-4">
+										<p class="text-gray-800 font-bold">{{subject}}</p>
+										<p class="text-gray-400 text-sm">{{customerName}}</p>
+									</div>
+									<p class="lg:flex md:hidden absolute right-6 text-md font-medium"><a href="/operations/projectreqdetails/{{_id}}"><button
+												class="px-3 py-2 bg-emerald-600 text-white text-lg rounded-lg"
+											>Show Details</button></a></p>
+								</li>
+							{{/if}}
+						{{/each}}
+					</ul>
+				</div>
+				<div class="w-full col-span-1 relative lg:h-[70vh] h-[50vh] p-4 border rounded-lg bg-white overflow-scroll">
+					<h1 class="text-3xl font-medium text-teal-600 p-2">Ongoing Projects</h1>
+					<ul>
+						{{#each ongoingProjectList}}
 
-            <li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center">
-              <a href="/operations/project/{{this._id}}">
-								<div class="bg-yellow-100 rounded-lg p-5">
-									<img src="../public/img/solar-panel.svg" class="text-purple-800 w-[40px]" />
-								</div>
-                </a>
+							<a href="/operations/project/{{this._id}}">
+								<li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center">
+									<div class="bg-yellow-100 rounded-lg p-5">
+										<img src="../public/img/solar-panel.svg" class="text-purple-800 w-[40px]" />
+									</div>
 
-								<div class="pl-4">
-                  <a href="/operations/project/{{this._id}}">
-                    <p class="text-gray-800 font-bold">{{name}}</p>
-                    <p class="text-gray-400 text-sm">{{address}}</p>
-                  </a>
-								</div>
-              </a>
-						</li>
-              
-            {{/each}}
-          </ul>
-        </div>
-      </div>
-    </main>
-  </main>
+									<div class="pl-4">
+										<p class="text-gray-800 font-bold">{{name}}</p>
+										<p class="text-gray-400 text-sm">{{address}}</p>
+									</div>
+								</li>
+							</a>
+
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</main>
+	</main>
 </div>
