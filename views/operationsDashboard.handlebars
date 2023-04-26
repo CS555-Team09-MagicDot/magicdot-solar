@@ -113,24 +113,23 @@
           <h1 class="text-3xl font-medium text-teal-600 p-2">Ongoing Projects</h1>
           <ul>
             {{#each ongoingProjectList}}
-              <li
-                class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
-              >
-                <a href="/operations/project/{{this._id}}">
-                  <div class="bg-teal-100 rounded-lg p-5">
-                    <img
-                      src="../public/img/solar-panel.svg"
-                      class="text-purple-800 w-[40px]"
-                    />
-                  </div>
+
+            <li class="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center">
+              <a href="/operations/project/{{this._id}}">
+								<div class="bg-yellow-100 rounded-lg p-5">
+									<img src="../public/img/solar-panel.svg" class="text-purple-800 w-[40px]" />
+								</div>
                 </a>
-                <div class="pl-4">
+
+								<div class="pl-4">
                   <a href="/operations/project/{{this._id}}">
                     <p class="text-gray-800 font-bold">{{name}}</p>
-                    <p class="text-gray-400 text-sm">{{address}}</p></a>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="">Complete Project</button>
-                </div>
-              </li>
+                    <p class="text-gray-400 text-sm">{{address}}</p>
+                  </a>
+								</div>
+              </a>
+						</li>
+              
             {{/each}}
           </ul>
         </div>
