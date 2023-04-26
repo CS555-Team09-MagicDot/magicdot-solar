@@ -15,7 +15,18 @@ const getPendingProjects = async () => {
 	return pendingProjects;
 };
 
-const createProject = async (name, description, startDate, endDate, status, approvalStatus, salesRep, constructionCrew, operationsManager, customer) => {
+const createProject = async (
+	name,
+	description,
+	startDate,
+	endDate,
+	status,
+	approvalStatus,
+	salesRep,
+	constructionCrew,
+	operationsManager,
+	customer
+) => {
 	// Validate inputs
 	//name = validateString(name, 'name');
 	// description = validateMessage(description, 'description');
@@ -110,24 +121,24 @@ const createProjectUsingRequest = async (reqObj, operationalManagerId) => {
 		status: "approved",
 		constructionCrew: null,
 		operationsManager: operationalManagerId,
-		projectTasks: []
+		projectTasks: [],
 	};
 
 	const projectsCollection = await projects();
 
 	const newProjectInfo = await projectsCollection.insertOne(newProject);
 	if (!newProjectInfo.acknowledged || !newProjectInfo.insertedId) throw { status: 500, message: "Could not create Project" };
-  
+
 	const projectCreated = getProjectById(newProjectInfo.insertedId.toString());
 	return projectCreated;
 };
 
 const addProjectTask = async (projectId, task) => {
-
 	const projectInfo = await getProjectById(projectId);
 	//console.log(task);
-	var arr = projectInfo.projectTasks;
-	arr.push(task);
+	let arr = projectInfo.projectTasks;
+	let currentDate = new Date().toLocaleString("en-US");
+	arr.push({ task: task, date: currentDate });
 	console.log(arr);
 
 	var query = { _id: new ObjectId(projectId) };
@@ -141,14 +152,12 @@ const addProjectTask = async (projectId, task) => {
 };
 
 const getProjectTasksByProjectId = async (projectId) => {
-
 	const projectInfo = await getProjectById(projectId);
 	const projectTasks = projectInfo.projectTasks;
 	console.log(projectTasks);
 
 	return projectTasks;
 };
-
 
 module.exports = {
 	getApprovedProjects,
@@ -159,5 +168,5 @@ module.exports = {
 	getProjectsByConstructionCrew,
 	createProjectUsingRequest,
 	addProjectTask,
-	getProjectTasksByProjectId
+	getProjectTasksByProjectId,
 };
