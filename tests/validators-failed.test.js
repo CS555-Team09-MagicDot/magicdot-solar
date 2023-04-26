@@ -40,3 +40,36 @@ test("Should throw for invalid Message", () => {
 test("Should throw for invalid password", () => {
 	expect(() => validators.validatePassword("test@123")).toThrow();
 });
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword("test123")).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword("test")).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword("TEST")).toThrow();
+});
+
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword("TEST123")).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword("@")).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword(['abc'])).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword(12345)).toThrow();
+});
+
+test("Should throw for invalid password", () => {
+	expect(() => validators.validatePassword()).toThrow();
+});

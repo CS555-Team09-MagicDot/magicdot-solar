@@ -120,6 +120,7 @@ router.route("/project/:id").get(async (req, res) => {
       title: "Project Details",
       projectDetails: projectDetails,
       projectStatuses: projectStatus - 1,
+      projectTasksList: projectDetails.projectTasks,
     });
   } catch (error) {
     return res.status(400).render("error", { error: error });
@@ -189,6 +190,13 @@ router.route("/addprojecttask/:projectId").post(async (req, res) => {
   } catch (error) {
     return res.status(400).render("error", { error: error });
   }
+});
+
+router.route("/updateproject/:projectReqId").get(async (req, res) => {
+  const projectDetails = await projectData.getUpdateProjectById(
+    req.params.projectReqId
+  );
+  return res.redirect("/operations/project/" + req.params.projectReqId);
 });
 
 // router.route("/markprojectcomplete/:projectId").get(async (req, res) => {
