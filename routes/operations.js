@@ -192,6 +192,13 @@ router.route("/addprojecttask/:projectId").post(async (req, res) => {
   }
 });
 
+router.route("/updateproject/:projectReqId").get(async (req, res) => {
+  const projectDetails = await projectData.getUpdateProjectById(
+    req.params.projectReqId
+  );
+  return res.redirect("/operations/project/" + req.params.projectReqId);
+});
+
 // router.route("/markprojectcomplete/:projectId").get(async (req, res) => {
 //   if (!req.session.user || req.session.user.role !== "operational manager") {
 //     return res.redirect("/");

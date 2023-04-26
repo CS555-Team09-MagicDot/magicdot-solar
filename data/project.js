@@ -86,6 +86,33 @@ const getProjectById = async (projectId) => {
 	return project;
 };
 
+const getUpdateProjectById = async (projectId) => {
+	projectId = validators.validateId(projectId, "project ID");
+	const projectCollection = await projects();
+	let projectStatus = '';
+	
+	const project = await projectCollection.updateOne({ _id: new ObjectId(projectId) });
+
+	if (projectDetails.status == "approved") {
+		projectStatus = 'site inspection';
+	  } else if (projectDetails.status == "site inspection") {
+		projectStatus = 'inventory check';
+	  } else if (projectDetails.status == "inventory check") {
+		projectStatus = 3;
+	  } else if (projectDetails.status == "under construction") {
+		projectStatus = 4;
+	  } else if (projectDetails.status == "final inspection") {
+		projectStatus = 5;
+	  } else if (projectDetails.status == "finished") {
+		projectStatus = 6;
+	  } else {
+		throw "Project Status Invalid";
+	  }
+	if (!project) throw { status: 404, message: "Project not found" };
+	project._id = project._id.toString();
+	return project;
+};
+
 const getAllProjects = async () => {
 	const projectCollection = await projects();
 	const arr = await projectCollection.find({}).toArray();
