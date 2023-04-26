@@ -38,12 +38,23 @@
 			<div class="grid grid-cols-1 gap-4 p-4">
 				<div class="p-4 space-y-2 grid grid-cols-6 mt-4">
 					<div class="flex col-span-6 space-x-5">
-						<span class="h-2 w-full rounded-sm bg-green-600"></span>
+             {{#times 5}}
+            {{#ifCond @index '<' projectStatuses}} <span class="h-2 w-full rounded-sm bg-green-600"></span>
+              {{/ifCond}}
+                {{#ifCond @index '==' projectStatuses}} <span class="h-2 w-full rounded-sm bg-lime-600"></span>
+              {{/ifCond}}
+               {{#ifCond @index '>' projectStatuses}}  <span class="h-2 w-full rounded-sm bg-gray-600"></span>
+              {{/ifCond}}
+
+              
+
+              {{/times}}
+						{{!-- <span class="h-2 w-full rounded-sm bg-green-600"></span>
 						<span class="h-2 w-full rounded-sm bg-green-600"></span>
 						<span class="h-2 w-full rounded-sm bg-lime-600"></span>
 						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
 						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
-						<span class="h-2 w-full rounded-sm bg-gray-600"></span>
+						<span class="h-2 w-full rounded-sm bg-gray-600"></span> --}}
 						{{!-- {{#each projectStatuses}}
             {{#if (lt @index ../projectStatus)}}
             <span class="h-2 w-full rounded-sm bg-green-600"></span>
